@@ -18,16 +18,18 @@ Pengo::~Pengo()
 
 void Pengo::Initialize()
 {
-	m_Sprite = new SpriteComponent("Pengo.jpg", 4, 2);
+	m_Sprite = new SpriteComponent("Pengo.png", 4, 2, 32);
 
 	m_Sprite->AddClip(2, true);
 	m_Sprite->AddClip(2, true);
 	m_Sprite->AddClip(2, true);
 	m_Sprite->AddClip(2, true);
-
-	m_Destination = GetTransform()->GetWorldPosition();
 
 	AddComponent(m_Sprite);
+
+	GetTransform()->Translate(16.0f, 16.0f);
+
+	m_Destination = GetTransform()->GetPosition();
 }
 
 void Pengo::MoveNext()
@@ -35,49 +37,49 @@ void Pengo::MoveNext()
 	switch (m_Direction)
 	{
 	case Direction::Down:
-		if (m_pTransform->GetWorldPosition().y + (m_MoveSpeed * m_pGameTime->GetElapsedSec()) > m_Destination.y)
+		if (m_pTransform->GetPosition().y + (m_MoveSpeed * m_pGameTime->GetElapsedSec()) > m_Destination.y)
 		{
-			m_pTransform->TranslateWorld(m_Destination);
+			m_pTransform->Translate(m_Destination);
 		}
 		else
 		{
-			m_pTransform->MoveWorld(0, m_MoveSpeed * m_pGameTime->GetElapsedSec());
+			m_pTransform->Move(0, m_MoveSpeed * m_pGameTime->GetElapsedSec());
 			m_State = State::MoveDown;
 			m_Direction = Direction::Down;
 		}
 		break;
 	case Direction::Up:
-		if (m_pTransform->GetWorldPosition().y - (m_MoveSpeed * m_pGameTime->GetElapsedSec()) < m_Destination.y)
+		if (m_pTransform->GetPosition().y - (m_MoveSpeed * m_pGameTime->GetElapsedSec()) < m_Destination.y)
 		{
-			m_pTransform->TranslateWorld(m_Destination);
+			m_pTransform->Translate(m_Destination);
 		}
 		else
 		{
-			m_pTransform->MoveWorld(0, -(m_MoveSpeed * m_pGameTime->GetElapsedSec()));
+			m_pTransform->Move(0, -(m_MoveSpeed * m_pGameTime->GetElapsedSec()));
 			m_State = State::MoveUp;
 			m_Direction = Direction::Up;
 		}
 		break;
 	case Direction::Right:
-		if (m_pTransform->GetWorldPosition().x + (m_MoveSpeed * m_pGameTime->GetElapsedSec()) > m_Destination.x)
+		if (m_pTransform->GetPosition().x + (m_MoveSpeed * m_pGameTime->GetElapsedSec()) > m_Destination.x)
 		{
-			m_pTransform->TranslateWorld(m_Destination);
+			m_pTransform->Translate(m_Destination);
 		}
 		else
 		{
-			m_pTransform->MoveWorld(m_MoveSpeed * m_pGameTime->GetElapsedSec(), 0);
+			m_pTransform->Move(m_MoveSpeed * m_pGameTime->GetElapsedSec(), 0);
 			m_State = State::MoveRight;
 			m_Direction = Direction::Right;
 		}
 		break;
 	case Direction::Left:
-		if (m_pTransform->GetWorldPosition().x - (m_MoveSpeed * m_pGameTime->GetElapsedSec()) < m_Destination.x)
+		if (m_pTransform->GetPosition().x - (m_MoveSpeed * m_pGameTime->GetElapsedSec()) < m_Destination.x)
 		{
-			m_pTransform->TranslateWorld(m_Destination);
+			m_pTransform->Translate(m_Destination);
 		}
 		else
 		{
-			m_pTransform->MoveWorld(-(m_MoveSpeed * m_pGameTime->GetElapsedSec()), 0);
+			m_pTransform->Move(-(m_MoveSpeed * m_pGameTime->GetElapsedSec()), 0);
 			m_State = State::MoveLeft;
 			m_Direction = Direction::Left;
 		}
@@ -96,13 +98,13 @@ void Pengo::UpdateMovement()
 {
 	if (m_pInput->IsKeyPressed(KEY_UP))
 	{
-		if (m_pTransform->GetWorldPosition() == m_Destination ||m_Direction == Direction::Up || m_Direction == Direction::Down)
+		if (m_pTransform->GetPosition() == m_Destination ||m_Direction == Direction::Up || m_Direction == Direction::Down)
 		{
-			m_pTransform->MoveWorld(0, -(m_MoveSpeed * m_pGameTime->GetElapsedSec()));
+			m_pTransform->Move(0, -(m_MoveSpeed * m_pGameTime->GetElapsedSec()));
 			m_State = State::MoveUp;
 			m_Direction = Direction::Up;
 
-			if (m_pTransform->GetWorldPosition().y < m_Destination.y)
+			if (m_pTransform->GetPosition().y < m_Destination.y)
 			{
 				m_Destination.y -= 32.0f;
 			}
@@ -114,13 +116,13 @@ void Pengo::UpdateMovement()
 	}
 	else if (m_pInput->IsKeyPressed(KEY_DOWN))
 	{
-		if (m_pTransform->GetWorldPosition() == m_Destination || m_Direction == Direction::Up || m_Direction == Direction::Down)
+		if (m_pTransform->GetPosition() == m_Destination || m_Direction == Direction::Up || m_Direction == Direction::Down)
 		{
-			m_pTransform->MoveWorld(0, m_MoveSpeed * m_pGameTime->GetElapsedSec());
+			m_pTransform->Move(0, m_MoveSpeed * m_pGameTime->GetElapsedSec());
 			m_State = State::MoveDown;
 			m_Direction = Direction::Down;
 
-			if (m_pTransform->GetWorldPosition().y > m_Destination.y)
+			if (m_pTransform->GetPosition().y > m_Destination.y)
 			{
 				m_Destination.y += 32.0f;
 			}
@@ -132,13 +134,13 @@ void Pengo::UpdateMovement()
 	}
 	else if (m_pInput->IsKeyPressed(KEY_RIGHT))
 	{
-		if (m_pTransform->GetWorldPosition() == m_Destination || m_Direction == Direction::Left || m_Direction == Direction::Right)
+		if (m_pTransform->GetPosition() == m_Destination || m_Direction == Direction::Left || m_Direction == Direction::Right)
 		{
-			m_pTransform->MoveWorld(m_MoveSpeed * m_pGameTime->GetElapsedSec(), 0);
+			m_pTransform->Move(m_MoveSpeed * m_pGameTime->GetElapsedSec(), 0);
 			m_State = State::MoveRight;
 			m_Direction = Direction::Right;
 
-			if (m_pTransform->GetWorldPosition().x > m_Destination.x)
+			if (m_pTransform->GetPosition().x > m_Destination.x)
 			{
 				m_Destination.x += 32.0f;
 			}
@@ -150,13 +152,13 @@ void Pengo::UpdateMovement()
 	}
 	else if (m_pInput->IsKeyPressed(KEY_LEFT))
 	{
-		if (m_pTransform->GetWorldPosition() == m_Destination || m_Direction == Direction::Left || m_Direction == Direction::Right)
+		if (m_pTransform->GetPosition() == m_Destination || m_Direction == Direction::Left || m_Direction == Direction::Right)
 		{
-			m_pTransform->MoveWorld(-(m_MoveSpeed * m_pGameTime->GetElapsedSec()), 0);
+			m_pTransform->Move(-(m_MoveSpeed * m_pGameTime->GetElapsedSec()), 0);
 			m_State = State::MoveLeft;
 			m_Direction = Direction::Left;
 
-			if (m_pTransform->GetWorldPosition().x < m_Destination.x)
+			if (m_pTransform->GetPosition().x < m_Destination.x)
 			{
 				m_Destination.x -= 32.0f;
 			}
@@ -165,6 +167,10 @@ void Pengo::UpdateMovement()
 		{
 			MoveNext();
 		}
+	}
+	else
+	{
+		m_State = State::Idle;
 	}
 }
 

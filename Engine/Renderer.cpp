@@ -85,13 +85,13 @@ void Renderer::RenderTextureComponent(TextureComponent* textureComponent, Transf
 	TransformComponent* pTransform = transfComponent;
 	Texture2D* pTexture = textureComponent->GetTexture();
 
-	dest.x = static_cast<int>(pTransform->GetWorldPosition().x);
-	dest.y = static_cast<int>(pTransform->GetWorldPosition().y);
+	dest.x = static_cast<int>(pTransform->GetPosition().x);
+	dest.y = static_cast<int>(pTransform->GetPosition().y);
 
 	SDL_QueryTexture(pTexture->GetSDLTexture(), nullptr, nullptr, &dest.w, &dest.h);
 
-	dest.w = int(dest.w * pTransform->GetWorldScale().x);
-	dest.h = int(dest.h * pTransform->GetWorldScale().y);
+	dest.w = int(dest.w * pTransform->GetScale().x);
+	dest.h = int(dest.h * pTransform->GetScale().y);
 
 	//dest.x = dest.x - (int)(dest.w / 2.0f);
 	//dest.y = dest.y - (int)(dest.h / 2.0f);
@@ -106,7 +106,7 @@ void Renderer::RenderTextureComponent(TextureComponent* textureComponent, Transf
 	//	pPivot->x = static_cast<int>(transfComponent->GetPivot()->x);
 	//	pPivot->y = static_cast<int>(transfComponent->GetPivot()->y);
 	//}
-	SDL_RenderCopyEx(GetSDLRenderer(), pTexture->GetSDLTexture(), nullptr, &dest, pTransform->GetWorldRotation(), nullptr, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(GetSDLRenderer(), pTexture->GetSDLTexture(), nullptr, &dest, pTransform->GetRotation(), nullptr, SDL_FLIP_NONE);
 }
 
 void Renderer::RenderSpriteComponent(SpriteComponent* spriteComponent, TransformComponent* transfComponent, const SDL_Rect& srcRect, const SDL_RendererFlip& flip)
@@ -115,8 +115,8 @@ void Renderer::RenderSpriteComponent(SpriteComponent* spriteComponent, Transform
 	TransformComponent* pTransform = transfComponent;
 	Texture2D* pTexture = spriteComponent->GetTexture();
 
-	dest.x = static_cast<int>(pTransform->GetWorldPosition().x);
-	dest.y = static_cast<int>(pTransform->GetWorldPosition().y);
+	dest.x = static_cast<int>(pTransform->GetPosition().x);
+	dest.y = static_cast<int>(pTransform->GetPosition().y);
 
 	SDL_QueryTexture(pTexture->GetSDLTexture(), nullptr, nullptr, &dest.w, &dest.h);
 
@@ -136,7 +136,7 @@ void Renderer::RenderSpriteComponent(SpriteComponent* spriteComponent, Transform
 	//	pPivot->x = static_cast<int>(transfComponent->GetPivot()->x);
 	//	pPivot->y = static_cast<int>(transfComponent->GetPivot()->y);
 	//}
-	SDL_RenderCopyEx(GetSDLRenderer(), pTexture->GetSDLTexture(), &srcRect, &dest, pTransform->GetWorldRotation(), nullptr, flip);
+	SDL_RenderCopyEx(GetSDLRenderer(), pTexture->GetSDLTexture(), &srcRect, &dest, pTransform->GetRotation(), nullptr, flip);
 }
 
 void Renderer::RenderTextComponent(TextComponent* textureComponent, TransformComponent* transfComponent)
@@ -145,16 +145,16 @@ void Renderer::RenderTextComponent(TextComponent* textureComponent, TransformCom
 	TransformComponent* pTransform = transfComponent;
 	Texture2D* pTexture = textureComponent->GetTexture();
 
-	dest.x = static_cast<int>(pTransform->GetWorldPosition().x);
-	dest.y = static_cast<int>(pTransform->GetWorldPosition().y);
+	dest.x = static_cast<int>(pTransform->GetPosition().x);
+	dest.y = static_cast<int>(pTransform->GetPosition().y);
 
 	SDL_QueryTexture(pTexture->GetSDLTexture(), nullptr, nullptr, &dest.w, &dest.h);
 
-	dest.w = int(dest.w * pTransform->GetWorldScale().x);
-	dest.h = int(dest.h * pTransform->GetWorldScale().y);
+	dest.w = int(dest.w * pTransform->GetScale().x);
+	dest.h = int(dest.h * pTransform->GetScale().y);
 
 	//dest.x = dest.x - (int)(dest.w / 2.0f);
 	//dest.y = dest.y - (int)(dest.h / 2.0f);
 
-	SDL_RenderCopyEx(GetSDLRenderer(), pTexture->GetSDLTexture(), nullptr, &dest, pTransform->GetWorldRotation(), nullptr, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(GetSDLRenderer(), pTexture->GetSDLTexture(), nullptr, &dest, pTransform->GetRotation(), nullptr, SDL_FLIP_NONE);
 }

@@ -8,12 +8,30 @@
     <ClCompile Include="Pengo.cpp">
       <Filter>Prefabs</Filter>
     </ClCompile>
+    <ClCompile Include="LevelManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>Prefabs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PengoScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Pengo.h">
+      <Filter>Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.h">
       <Filter>Prefabs</Filter>
     </ClInclude>
   </ItemGroup>
@@ -23,6 +41,9 @@
     </Filter>
     <Filter Include="Prefabs">
       <UniqueIdentifier>{a17292a6-1528-4dc0-89a4-99fb1fb4ff3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers">
+      <UniqueIdentifier>{1f2bc635-aaf5-4241-aba7-96bfff65d2d4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

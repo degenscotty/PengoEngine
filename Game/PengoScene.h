@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
 #include "Pengo.h"
+#include "LevelManager.h"
 
 class PengoScene : public Scene
 {
@@ -20,5 +21,7 @@ protected:
 
 private:
 	Pengo* m_pPengo;
+
+	LevelManager* m_pLevelManager;
 };
 

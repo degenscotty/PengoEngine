@@ -166,13 +166,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Block.cpp" />
+    <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="Pengo.cpp" />
     <ClCompile Include="PengoScene.cpp" />
     <ClCompile Include="SandboxApplication.cpp" />
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Block.h" />
+    <ClInclude Include="LevelManager.h" />
     <ClInclude Include="Pengo.h" />
     <ClInclude Include="PengoScene.h" />
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

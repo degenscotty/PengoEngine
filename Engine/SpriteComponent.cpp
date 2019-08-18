@@ -5,7 +5,7 @@
 #include "GameObject.h"
 #include "Renderer.h"
 
-SpriteComponent::SpriteComponent(const std::string& file, int rows, int cols)
+SpriteComponent::SpriteComponent(const std::string& file, int rows, int cols, int clipsize)
 	: m_pTexture{ nullptr }
 	, m_pTransformComponent{ nullptr }
 	, m_Pivot{}
@@ -15,8 +15,8 @@ SpriteComponent::SpriteComponent(const std::string& file, int rows, int cols)
 	, m_Cols{ cols }
 	, m_AnimTime{ 0.0f }
 	, m_FramesPerSecond{ 6 }
-	, m_ClipWidth{ 32 }
-	, m_ClipHeight{ 32 }
+	, m_ClipWidth{ (float)clipsize }
+	, m_ClipHeight{ (float)clipsize }
 	, m_AnimFrame{ 0 }
 	, m_GameTime{ GameTime::GetInstance() }
 	, m_ClipIndex{}

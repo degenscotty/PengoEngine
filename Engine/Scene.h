@@ -10,7 +10,7 @@ class Scene
 {
 public:
 	Scene(const std::wstring& name);
-	~Scene();
+	virtual ~Scene();
 
 	void Add(GameObject* object);
 

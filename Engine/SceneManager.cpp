@@ -54,11 +54,11 @@ void SceneManager::AddScene(Scene* pScene)
 	{
 		m_pScenes.push_back(pScene);
 
+		if (m_ActiveScene == nullptr && m_NewActiveScene == nullptr)
+			m_ActiveScene = pScene;
+
 		if (m_IsInitialized)
 			pScene->RootInitialize();
-
-		if (m_ActiveScene == nullptr && m_NewActiveScene == nullptr)
-			m_NewActiveScene = pScene;
 	}
 }
 

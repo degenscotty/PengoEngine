@@ -7,7 +7,6 @@ public:
 	SandboxApplication()
 	{
 		SceneManager::GetInstance()->AddScene(new PengoScene());
-		SceneManager::GetInstance()->SetActiveScene(L"PengoScene");
 	}
 
 	~SandboxApplication()

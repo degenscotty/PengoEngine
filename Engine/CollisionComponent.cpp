@@ -27,8 +27,8 @@ void CollisionComponent::Update()
 		CORE_ERROR("CollisionComponent::Update() > This CollisionComponent has not been added to a gameObject!");
 	}
 
-	m_CollisionBox.x = m_pTransformComponent->GetWorldPosition().x;
-	m_CollisionBox.y = m_pTransformComponent->GetWorldPosition().y;
+	m_CollisionBox.x = m_pTransformComponent->GetPosition().x;
+	m_CollisionBox.y = m_pTransformComponent->GetPosition().y;
 }
 
 bool CollisionComponent::IsColliding(const Rectf& rect)

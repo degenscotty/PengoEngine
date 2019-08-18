@@ -27,9 +27,9 @@ void Scene::RootInitialize()
 {
 	Initialize();
 
-	for (auto pChild : m_pGameObjects)
+	for (size_t i{}; i < m_pGameObjects.size(); ++i)
 	{
-		pChild->RootInitialize();
+		m_pGameObjects[i]->RootInitialize();
 	}
 
 	m_IsInitialized = true;
@@ -39,9 +39,9 @@ void Scene::RootUpdate()
 {
 	Update();
 
-	for (GameObject* gameObject : m_pGameObjects)
+	for (size_t i{}; i < m_pGameObjects.size(); ++i)
 	{
-		gameObject->RootUpdate();
+		m_pGameObjects[i]->RootUpdate();
 	}
 }
 
@@ -49,9 +49,9 @@ void Scene::RootRender()
 {
 	Render();
 
-	for (GameObject* gameObject : m_pGameObjects)
+	for (size_t i{}; i < m_pGameObjects.size(); ++i)
 	{
-		gameObject->RootRender();
+		m_pGameObjects[i]->RootRender();
 	}
 }
 

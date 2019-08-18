@@ -13,7 +13,7 @@ class GameObject;
 class SpriteComponent : public BaseComponent
 {
 public:
-	explicit SpriteComponent(const std::string& file, int rows, int cols);
+	explicit SpriteComponent(const std::string& file, int rows, int cols, int clipsize);
 	virtual ~SpriteComponent() = default;
 
 	SpriteComponent(const SpriteComponent& other) = delete;
