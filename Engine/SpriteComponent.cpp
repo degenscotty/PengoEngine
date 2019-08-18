@@ -51,9 +51,12 @@ void SpriteComponent::SetClipIndex(int index)
 		return;
 	}
 
-	m_ClipIndex = index;
-	m_AnimFrame = m_ClipIndex * m_Cols;
-	m_AnimTime = 0.0f;
+	if (m_ClipIndex != index)
+	{
+		m_ClipIndex = index;
+		m_AnimFrame = m_ClipIndex * m_Cols;
+		m_AnimTime = 0.0f;
+	}
 }
 
 void SpriteComponent::AddClip(int clipSize, bool repeat)
