@@ -16,7 +16,7 @@ struct Rectf
 class CollisionComponent : public BaseComponent
 {
 public:
-	CollisionComponent();
+	CollisionComponent(float width, float height);
 	~CollisionComponent();
 
 	CollisionComponent(const CollisionComponent& other) = delete;

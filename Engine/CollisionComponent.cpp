@@ -4,9 +4,9 @@
 #include "TransformComponent.h"
 #include "Renderer.h"
 
-CollisionComponent::CollisionComponent()
+CollisionComponent::CollisionComponent(float width, float height)
 	: m_pTransformComponent{ nullptr }
-	, m_CollisionBox{}
+	, m_CollisionBox{0, 0, width, height}
 	, m_IsActive{ true }
 {
 }
@@ -33,12 +33,12 @@ void CollisionComponent::Update()
 
 bool CollisionComponent::IsColliding(const Rectf& rect)
 {
-	if ((rect.x + rect.w) <= m_CollisionBox.x || (m_CollisionBox.x + m_CollisionBox.w) <= rect.x)
+	if ((rect.x + rect.w) < m_CollisionBox.x || (m_CollisionBox.x + m_CollisionBox.w) < rect.x)
 	{
 		return false;
 	}
 
-	if ((rect.y + rect.h) <= m_CollisionBox.y || (m_CollisionBox.y + m_CollisionBox.h) <= rect.y)
+	if ((rect.y + rect.h) < m_CollisionBox.y || (m_CollisionBox.y + m_CollisionBox.h) < rect.y)
 	{
 		return false;
 	}
@@ -48,5 +48,6 @@ bool CollisionComponent::IsColliding(const Rectf& rect)
 
 void CollisionComponent::Render()
 {
+	SDL_SetRenderDrawColor(Renderer::GetInstance()->GetSDLRenderer(), 255, 0, 0, 255);
 	SDL_RenderDrawRect(Renderer::GetInstance()->GetSDLRenderer(), &SDL_Rect({ (int)m_CollisionBox.x, (int)m_CollisionBox.y, (int)m_CollisionBox.w, (int)m_CollisionBox.h }));
 }

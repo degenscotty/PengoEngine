@@ -1,8 +1,13 @@
 #pragma once
 #include "GameObject.h"
-#include "Components.h"
+
 #include "InputManager.h"
 #include "GameTime.h"
+#include "LevelManager.h"
+#include <glm.hpp>
+
+class SpriteComponent;
+class TransformComponent;
 
 class Pengo : public GameObject
 {
@@ -37,6 +42,8 @@ public:
 
 	void MoveNext();
 
+	void OnTrigger(GameObject* gameObject);
+
 protected:
 	void Initialize() override;
 	void Update() override;
@@ -45,6 +52,8 @@ protected:
 private:
 	InputManager* m_pInput;
 	GameTime* m_pGameTime;
+	LevelManager* m_pLevelManager;
+
 	TransformComponent* m_pTransform;
 	SpriteComponent* m_Sprite;
 

@@ -4,8 +4,6 @@
 #include <vector>
 #include <string>
 
-#define BIND_COLLISION_FN(x) std::bind(&x, this, std::placeholders::_1)
-
 class BaseComponent;
 class TransformComponent;
 class CollisionComponent;
@@ -24,7 +22,7 @@ public:
 	void AddComponent(BaseComponent* component);
 	void RemoveComponent(BaseComponent* component);
 
-	void SetCollisionCallBack(const std::function<void(GameObject&)>& collisionCallBack) { m_CollisionCallBack = collisionCallBack; }
+	void SetCollisionCallBack(std::function<void(GameObject*)> collisionCallBack) { m_CollisionCallBack = collisionCallBack; }
 
 	TransformComponent* GetTransform() const { return m_pTransform; }
 
@@ -33,6 +31,8 @@ public:
 
 	void SetTag(const std::string& tag) { m_Tag = tag; }
 	const std::string& GetTag() { return m_Tag; }
+
+	virtual void OnTrigger(GameObject* gameObject) {}
 
 #pragma region 
 	///This code is completely based on Overlord engine(GP2)
@@ -74,6 +74,6 @@ private:
 
 	std::vector<BaseComponent*> m_Components;
 	TransformComponent* m_pTransform;
-	std::function<void(GameObject&)> m_CollisionCallBack;
+	std::function<void(GameObject*)> m_CollisionCallBack;
 };
 

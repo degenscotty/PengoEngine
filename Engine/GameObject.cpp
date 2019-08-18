@@ -13,6 +13,8 @@ GameObject::GameObject()
 {
 	m_pTransform = new TransformComponent();
 	m_Components.push_back(m_pTransform);
+
+	SetCollisionCallBack(BIND_FN(GameObject::OnTrigger));
 }
 
 GameObject::~GameObject()

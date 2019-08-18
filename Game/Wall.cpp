@@ -13,6 +13,8 @@ Wall::~Wall()
 
 void Wall::Initialize()
 {
+	// ------------------------------- Sprite Component ------------------------------------- //
+
 	auto spriteComp = new SpriteComponent("Wall.png", 2, 6, 16);
 
 	spriteComp->AddClip(6, false);
@@ -21,7 +23,13 @@ void Wall::Initialize()
 	spriteComp->SetClipIndex(State::IDLE);
 
 	AddComponent(spriteComp);
+	// ---------------------------- Collision Component ------------------------------------- //
 
+	auto collisionComp = new CollisionComponent(16, 16);
+
+	AddComponent(collisionComp);
+
+	SetTag("Wall");
 	GetTransform()->Translate(m_SpawnPosition);
 }
 

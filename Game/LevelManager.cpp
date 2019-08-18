@@ -18,26 +18,26 @@ LevelManager::~LevelManager()
 void LevelManager::Initialize()
 {
 	m_LevelString += L"############################";
+	m_LevelString += L"#..........................#";
+	m_LevelString += L"#..........................#";
+	m_LevelString += L"#..........................#";
+	m_LevelString += L"#..........................#";
+	m_LevelString += L"#..........O=..............#";
+	m_LevelString += L"#..........==..............#";
+	m_LevelString += L"#......O=O=O=O=O=......O=O=#";
+	m_LevelString += L"#......==========......====#";
 	m_LevelString += L"#..........O=..............#";
 	m_LevelString += L"#..........==..............#";
 	m_LevelString += L"#..........O=..............#";
 	m_LevelString += L"#..........==..............#";
 	m_LevelString += L"#..........O=..............#";
 	m_LevelString += L"#..........==..............#";
-	m_LevelString += L"#O=O=O=O=O=O=O=O=O=O=O=O=O=#";
-	m_LevelString += L"#==========================#";
-	m_LevelString += L"#..........O=..............#";
-	m_LevelString += L"#..........==..............#";
-	m_LevelString += L"#..........O=..............#";
-	m_LevelString += L"#..........==..............#";
-	m_LevelString += L"#..........O=..............#";
-	m_LevelString += L"#..........==..............#";
-	m_LevelString += L"#..........O=..............#";
-	m_LevelString += L"#..........==..............#";
-	m_LevelString += L"#..........O=..............#";
-	m_LevelString += L"#..........==..............#";
-	m_LevelString += L"#..........O=..............#";
-	m_LevelString += L"#..........==..............#";
+	m_LevelString += L"#..........................#";
+	m_LevelString += L"#..........................#";
+	m_LevelString += L"#..........................#";
+	m_LevelString += L"#..........................#";
+	m_LevelString += L"#..........................#";
+	m_LevelString += L"#..........................#";
 	m_LevelString += L"#..........O=..............#";
 	m_LevelString += L"#..........==..............#";
 	m_LevelString += L"#..........O=..............#";
@@ -64,7 +64,7 @@ void LevelManager::InitializeLevel()
 			{
 			case L'O':
 			{
-				auto block = new Block({x * 16.0f, y * 16.0f});
+				auto block = new Block({ x * 16.0f, y * 16.0f });
 				m_pSceneManager->GetActiveScene()->Add(block);
 			}
 			break;
