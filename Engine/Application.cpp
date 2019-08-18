@@ -7,6 +7,7 @@
 #include "GameTime.h"
 #include "InputManager.h"
 #include "ResourceManager.h"
+#include "GarbageCollector.h"
 
 Application* Application::s_Instance = nullptr;
 
@@ -26,7 +27,8 @@ Application::~Application()
 	Renderer::DestroyInstance();
 	InputManager::DestroyInstance();
 	ResourceManager::DestroyInstance();
-	
+	GarbageCollector::DestroyInstance();
+
 	delete m_pWindow;
 	m_pWindow = nullptr;
 }

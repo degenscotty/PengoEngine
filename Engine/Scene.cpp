@@ -19,9 +19,21 @@ Scene::~Scene()
 	}
 }
 
-void Scene::Add(GameObject* object)
+void Scene::Add(GameObject* gameObject)
 {
-	m_pGameObjects.push_back(object);
+	m_pGameObjects.push_back(gameObject);
+
+	gameObject->m_pScene = this;
+}
+
+void Scene::Remove(GameObject* gameObject)
+{
+	const auto it = std::find(m_pGameObjects.begin(), m_pGameObjects.end(), gameObject);
+
+	if (it != m_pGameObjects.end())
+	{
+		m_pGameObjects.erase(it);
+	}
 }
 
 void Scene::RootInitialize()

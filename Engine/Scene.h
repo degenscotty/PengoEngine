@@ -12,7 +12,8 @@ public:
 	Scene(const std::wstring& name);
 	virtual ~Scene();
 
-	void Add(GameObject* object);
+	void Add(GameObject* gameObject);
+	void Remove(GameObject* gameObject);
 
 	Scene(const Scene& other) = delete;
 	Scene(Scene&& other) = delete;

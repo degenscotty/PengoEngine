@@ -176,6 +176,7 @@
     <ClInclude Include="Font.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameTime.h" />
+    <ClInclude Include="GarbageCollector.h" />
     <ClInclude Include="InputDefinitions.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Log.h" />
@@ -201,6 +202,7 @@
     <ClCompile Include="EntryPoint.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameTime.cpp" />
+    <ClCompile Include="GarbageCollector.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="pch.cpp">

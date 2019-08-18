@@ -3,6 +3,7 @@
 #include <functional>
 #include <vector>
 #include <string>
+#include "Scene.h"
 
 class BaseComponent;
 class TransformComponent;
@@ -31,6 +32,8 @@ public:
 
 	void SetTag(const std::string& tag) { m_Tag = tag; }
 	const std::string& GetTag() { return m_Tag; }
+
+	Scene* GetScene() { if (m_pScene) return m_pScene; else return nullptr; }
 
 	virtual void OnTrigger(GameObject* gameObject) {}
 
@@ -72,6 +75,7 @@ private:
 	std::string m_Tag;
 	bool m_Destroy;
 
+	Scene* m_pScene;
 	std::vector<BaseComponent*> m_Components;
 	TransformComponent* m_pTransform;
 	std::function<void(GameObject*)> m_CollisionCallBack;

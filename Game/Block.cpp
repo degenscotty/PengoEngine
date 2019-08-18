@@ -1,5 +1,6 @@
 #include "Block.h"
 #include "Components.h"
+#include "GarbageCollector.h"
 
 Block::Block(const glm::vec2& position)
 	: m_SpawnPosition(position)
@@ -10,6 +11,9 @@ Block::Block(const glm::vec2& position)
 	, m_Destination()
 	, m_pGameTime(GameTime::GetInstance())
 	, m_pTransform(GetTransform())
+	, m_pSpriteComponent(nullptr)
+	, m_State(State::IDLE)
+	, m_Destroy(false)
 {
 }
 
@@ -21,14 +25,14 @@ void Block::Initialize()
 {
 	// ------------------------------- Sprite Component ------------------------------------- //
 
-	auto spriteComp = new SpriteComponent("Block.png", 2, 9, 32);
+	m_pSpriteComponent = new SpriteComponent("Block.png", 2, 9, 32);
 
-	spriteComp->AddClip(9, false);
-	spriteComp->AddClip(1, false);
+	m_pSpriteComponent->AddClip(9, false);
+	m_pSpriteComponent->AddClip(1, false);
 
-	spriteComp->SetClipIndex(State::IDLE);
+	m_pSpriteComponent->SetClipIndex(State::IDLE);
 
-	AddComponent(spriteComp);
+	AddComponent(m_pSpriteComponent);
 
 	// ------------------------------- Collision Component ------------------------------------- //
 
@@ -45,6 +49,12 @@ void Block::Initialize()
 void Block::Update()
 {
 	UpdateMovement();
+	UpdateAnimations();
+
+	if (m_pSpriteComponent->CheckEndOfCurrentClip() && m_Destroy == true)
+	{
+		GarbageCollector::GetInstance()->Destroy(this);
+	}
 }
 
 void Block::UpdateMovement()
@@ -62,7 +72,7 @@ void Block::UpdateMovement()
 
 				auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
 
-				if (wchar == L'#'|| wchar == L'O' || wchar == L' ')
+				if (wchar == L'#' || wchar == L'O' || wchar == L' ')
 				{
 					m_Destination.y -= 32.0f;
 					m_pTransform->Translate(m_Destination);
@@ -133,8 +143,93 @@ void Block::UpdateMovement()
 	}
 }
 
+void Block::UpdateAnimations()
+{
+	switch (m_State)
+	{
+	case State::BRAKING:
+		m_pSpriteComponent->SetClipIndex(State::BRAKING);
+		break;
+	case State::IDLE:
+		m_pSpriteComponent->SetClipIndex(State::IDLE);
+		break;
+	}
+}
+
 void Block::Push(const Direction& direction)
 {
+	switch (direction)
+	{
+	case Direction::Down:
+	{
+		m_Destination.y += 32.0f;
+
+		auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
+
+		if (wchar == L'#' || wchar == L'O' || wchar == L' ')
+		{
+			m_Destroy = true;
+			m_State = State::BRAKING;
+			m_Destination.y -= 32.0f;
+			m_pLevelManager->SetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16, '.');
+			return;
+		}
+
+		break;
+	}
+	case Direction::Up:
+	{
+		m_Destination.y -= 32.0f;
+
+		auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
+
+		if (wchar == L'#' || wchar == L'O' || wchar == L' ')
+		{
+			m_Destroy = true;
+			m_State = State::BRAKING;
+			m_Destination.y += 32.0f;
+			m_pLevelManager->SetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16, '.');
+			return;
+		}
+
+		break;
+	}
+	case Direction::Right:
+	{
+		m_Destination.x += 32.0f;
+
+		auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
+
+		if (wchar == L'#' || wchar == L'O' || wchar == L' ')
+		{
+			m_Destroy = true;
+			m_State = State::BRAKING;
+			m_Destination.x -= 32.0f;
+			m_pLevelManager->SetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16, '.');
+			return;
+		}
+
+		break;
+	}
+	case Direction::Left:
+	{
+		m_Destination.x -= 32.0f;
+
+		auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
+
+		if (wchar == L'#' || wchar == L'O' || wchar == L' ')
+		{
+			m_Destroy = true;
+			m_State = State::BRAKING;
+			m_Destination.x += 32.0f;
+			m_pLevelManager->SetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16, '.');
+			return;
+		}
+
+		break;
+	}
+	}
+
 	m_Moving = true;
 	m_Direction = direction;
 

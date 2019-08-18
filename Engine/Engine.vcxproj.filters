@@ -76,6 +76,9 @@
     <ClCompile Include="Renderer.cpp">
       <Filter>Core Files</Filter>
     </ClCompile>
+    <ClCompile Include="GarbageCollector.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -149,6 +152,9 @@
     </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>Core Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GarbageCollector.h">
+      <Filter>Helpers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

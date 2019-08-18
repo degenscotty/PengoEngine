@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "SceneManager.h"
 #include "Scene.h"
+#include "GarbageCollector.h"
 
 SceneManager::SceneManager()
 	: m_pScenes()
@@ -28,10 +29,14 @@ void SceneManager::Initialize()
 
 void SceneManager::Update()
 {
+	GarbageCollector::GetInstance()->RootDestroy();
+
 	if (m_NewActiveScene)
 	{
 		m_ActiveScene = m_NewActiveScene;
 		m_NewActiveScene = nullptr;
+
+		GarbageCollector::GetInstance()->RootSceneDestroy();
 	}
 
 	if (m_ActiveScene)

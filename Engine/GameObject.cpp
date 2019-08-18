@@ -10,6 +10,7 @@ GameObject::GameObject()
 	, m_Components{}
 	, m_pTransform(nullptr)
 	, m_Destroy{ false }
+	, m_pScene(nullptr)
 {
 	m_pTransform = new TransformComponent();
 	m_Components.push_back(m_pTransform);
