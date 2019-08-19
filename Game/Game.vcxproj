@@ -167,6 +167,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="Pengo.cpp" />
     <ClCompile Include="PengoScene.cpp" />
@@ -175,6 +176,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="Pengo.h" />
     <ClInclude Include="PengoScene.h" />

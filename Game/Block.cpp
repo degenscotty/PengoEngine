@@ -43,7 +43,7 @@ void Block::Initialize()
 	SetTag("Block");
 	GetTransform()->Translate(m_SpawnPosition);
 
-	m_Destination = GetTransform()->GetPosition();
+	m_Destination = m_SpawnPosition;
 }
 
 void Block::Update()

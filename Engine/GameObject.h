@@ -27,9 +27,6 @@ public:
 
 	TransformComponent* GetTransform() const { return m_pTransform; }
 
-	void Destroy() { m_Destroy = true; }
-	bool CheckDestroy() { return m_Destroy; }
-
 	void SetTag(const std::string& tag) { m_Tag = tag; }
 	const std::string& GetTag() { return m_Tag; }
 
@@ -73,7 +70,6 @@ private:
 	void RootRender();
 
 	std::string m_Tag;
-	bool m_Destroy;
 
 	Scene* m_pScene;
 	std::vector<BaseComponent*> m_Components;

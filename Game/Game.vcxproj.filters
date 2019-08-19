@@ -17,6 +17,9 @@
     <ClCompile Include="Block.cpp">
       <Filter>Prefabs</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Prefabs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PengoScene.h">
@@ -32,6 +35,9 @@
       <Filter>Prefabs</Filter>
     </ClInclude>
     <ClInclude Include="Block.h">
+      <Filter>Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
       <Filter>Prefabs</Filter>
     </ClInclude>
   </ItemGroup>
