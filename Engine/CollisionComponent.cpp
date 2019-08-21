@@ -48,6 +48,6 @@ bool CollisionComponent::IsColliding(const Rectf& rect)
 
 void CollisionComponent::Render()
 {
-	SDL_SetRenderDrawColor(Renderer::GetInstance()->GetSDLRenderer(), 255, 0, 0, 255);
-	SDL_RenderDrawRect(Renderer::GetInstance()->GetSDLRenderer(), &SDL_Rect({ (int)m_CollisionBox.x, (int)m_CollisionBox.y, (int)m_CollisionBox.w, (int)m_CollisionBox.h }));
+	//SDL_SetRenderDrawColor(Renderer::GetInstance()->GetSDLRenderer(), 255, 0, 0, 255);
+	//SDL_RenderDrawRect(Renderer::GetInstance()->GetSDLRenderer(), &SDL_Rect({ (int)m_CollisionBox.x, (int)m_CollisionBox.y, (int)m_CollisionBox.w, (int)m_CollisionBox.h }));
 }

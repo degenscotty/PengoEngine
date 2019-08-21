@@ -247,7 +247,7 @@ void Pengo::Render()
 
 void Pengo::OnTrigger(GameObject* gameObject)
 {
-	if (m_pInput->IsKeyPressed(KEY_SPACE) && gameObject->GetTag() == "Block")
+	if (m_pInput->IsKeyPressed(KEY_SPACE) && gameObject->GetTag() == "Block" && m_State != State::Idle)
 	{
 		switch (m_Direction)
 		{

@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "Wall.h"
 #include "Block.h"
+#include "Enemy.h"
 
 LevelManager::LevelManager()
 	: m_LevelHeight{ 32 }
@@ -18,34 +19,34 @@ LevelManager::~LevelManager()
 void LevelManager::Initialize()
 {
 	m_LevelString += L"############################";
-	m_LevelString += L"#..........................#";
-	m_LevelString += L"#..........................#";
-	m_LevelString += L"#..........................#";
-	m_LevelString += L"#..........................#";
-	m_LevelString += L"#..........O=..............#";
-	m_LevelString += L"#..........==..............#";
-	m_LevelString += L"#......O=O=O=O=O=......O=O=#";
-	m_LevelString += L"#......==========......====#";
-	m_LevelString += L"#..........O=..............#";
-	m_LevelString += L"#..........==..............#";
-	m_LevelString += L"#..........O=..............#";
-	m_LevelString += L"#..........==..............#";
-	m_LevelString += L"#..........O=..............#";
-	m_LevelString += L"#..........==..............#";
-	m_LevelString += L"#..........................#";
-	m_LevelString += L"#..........................#";
-	m_LevelString += L"#..........................#";
-	m_LevelString += L"#..........................#";
-	m_LevelString += L"#..........................#";
-	m_LevelString += L"#..........................#";
-	m_LevelString += L"#..........O=..............#";
-	m_LevelString += L"#..........==..............#";
-	m_LevelString += L"#..........O=..............#";
-	m_LevelString += L"#..........==..............#";
-	m_LevelString += L"#..........O=..............#";
-	m_LevelString += L"#..........==..............#";
-	m_LevelString += L"#..........O=..............#";
-	m_LevelString += L"#..........==..............#";
+	m_LevelString += L"#..O=......O=..........O=..#";
+	m_LevelString += L"#..==......==..........==..#";
+	m_LevelString += L"#..O=..O=O=O=O=X.O=O=..O=..#";
+	m_LevelString += L"#..==..========..====..==..#";
+	m_LevelString += L"#......O=..........O=..O=..#";
+	m_LevelString += L"#......==..........==..==..#";
+	m_LevelString += L"#..O=O=O=..O=O=O=..O=..O=..#";
+	m_LevelString += L"#..======..======..==..==..#";
+	m_LevelString += L"#..........O=......O=......#";
+	m_LevelString += L"#..........==......==......#";
+	m_LevelString += L"#O=O=O=O=O=O=..O=O=O=..X...#";
+	m_LevelString += L"#============..======......#";
+	m_LevelString += L"#..............O=..O=..O=..#";
+	m_LevelString += L"#..............==..==..==..#";
+	m_LevelString += L"#..O=O=O=O=O=O=O=..O=..O=O=#";
+	m_LevelString += L"#..==============..==..====#";
+	m_LevelString += L"#..O=..........O=..........#";
+	m_LevelString += L"#..==..........==..........#";
+	m_LevelString += L"#..O=O=O=O=O=..O=..O=O=O=..#";
+	m_LevelString += L"#..==========..==..======..#";
+	m_LevelString += L"#..O=..........O=..O=......#";
+	m_LevelString += L"#..==..........==..==......#";
+	m_LevelString += L"#..O=..O=O=O=O=O=..O=O=X.O=#";
+	m_LevelString += L"#..==..==========..====..==#";
+	m_LevelString += L"#......O=......O=..........#";
+	m_LevelString += L"#......==......==..........#";
+	m_LevelString += L"#O=O=..O=..O=..O=O=O=O=O=..#";
+	m_LevelString += L"#====..==..==..==========..#";
 	m_LevelString += L"#..........O=..............#";
 	m_LevelString += L"#..........==..............#";
 	m_LevelString += L"############################";
@@ -72,6 +73,13 @@ void LevelManager::InitializeLevel()
 			{
 				auto wall = new Wall({ x * 16.0f, y * 16.0f });
 				m_pSceneManager->GetActiveScene()->Add(wall);
+			}
+			break;
+			case L'X':
+			{
+				auto enemy = new Enemy({ x * 16.0f, y * 16.0f });
+				SetTile(x, y, L'.');
+				m_pSceneManager->GetActiveScene()->Add(enemy);
 			}
 			break;
 			default:
