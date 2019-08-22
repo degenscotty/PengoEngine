@@ -8,6 +8,7 @@
 #include "InputManager.h"
 #include "ResourceManager.h"
 #include "GarbageCollector.h"
+#include <chrono>
 
 Application* Application::s_Instance = nullptr;
 
@@ -36,6 +37,7 @@ Application::~Application()
 void Application::Initialize()
 {
 	m_pWindow = Window::Create();
+	GameTime::GetInstance()->Initialize();
 	Renderer::GetInstance()->Initialize();
 	SceneManager::GetInstance()->Initialize();
 }
@@ -47,14 +49,20 @@ void Application::Run()
 	Renderer* renderer = Renderer::GetInstance();
 	InputManager* input = InputManager::GetInstance();
 
+	gameTime->SetPreviousTime(std::chrono::high_resolution_clock::now());
+
 	while (!input->Quit())
 	{
-		gameTime->Update();
+		gameTime->UpdateCurrentTime();
+		gameTime->UpdateElapsedSec();
+
 		m_pWindow->OnUpdate();
 		sceneManager->Update();
 
 		renderer->ClearBuffer();
 		sceneManager->Render();
 		renderer->Render();
+
+		gameTime->UpdatePreviousTime();
 	}
 }

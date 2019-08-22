@@ -1,8 +1,8 @@
 #include "Enemy.h"
 #include "Components.h"
 #include "Block.h"
+#include "Pengo.h"
 #include <string>
-#include "LevelManager.h"
 #include <time.h>
 
 Enemy::Enemy(const glm::vec2& position)
@@ -17,7 +17,10 @@ Enemy::Enemy(const glm::vec2& position)
 	, m_Direction(Direction::NONE)
 	, m_SpawnPosition(position)
 	, m_WanderTimer(0.0f)
-	, m_SeekTimer(0.0f)
+	, m_PunchTimer(0.0f)
+	, m_SpawnTimer(0.0f)
+	, m_PunchCooldown(float(rand() % 5 + 5))
+	, m_WanderCooldown(float(rand() % 10 + 10))
 {
 }
 
@@ -69,20 +72,17 @@ void Enemy::Update()
 {
 	srand(unsigned int(time(NULL)));
 
-	float elapsedSec = m_pGameTime->GetElapsedSec();
-
-	m_WanderTimer += elapsedSec;
-
-	if (m_State == State::WANDERING && m_pTransform->GetPosition() == m_Destination)
-	{
-		CheckNextDirection();
-	}
-
+	UpdateStates();
 	UpdateMovement();
 	UpdateAnimations();
 }
-void Enemy::CheckNextDirection()
+
+void Enemy::CheckNextWander(int index)
 {
+	--index;
+	if (index < 1)
+		return;
+
 	switch (m_Direction)
 	{
 	case Direction::Down:
@@ -93,11 +93,11 @@ void Enemy::CheckNextDirection()
 
 		if (wchar == L'.')
 			m_Direction = Direction::Down;
-		else 
+		else
 		{
 			m_Direction = Direction(rand() % 4);
 			m_Destination.y -= 32.0f;
-			CheckNextDirection();
+			CheckNextWander(index);
 		}
 		break;
 	}
@@ -113,7 +113,7 @@ void Enemy::CheckNextDirection()
 		{
 			m_Direction = Direction(rand() % 4);
 			m_Destination.y += 32.0f;
-			CheckNextDirection();
+			CheckNextWander(index);
 		}
 		break;
 	}
@@ -129,7 +129,7 @@ void Enemy::CheckNextDirection()
 		{
 			m_Direction = Direction(rand() % 4);
 			m_Destination.x -= 32.0f;
-			CheckNextDirection();
+			CheckNextWander(index);
 		}
 		break;
 	}
@@ -145,16 +145,171 @@ void Enemy::CheckNextDirection()
 		{
 			m_Direction = Direction(rand() % 4);
 			m_Destination.x += 32.0f;
-			CheckNextDirection();
+			CheckNextWander(index);
 		}
 		break;
 	}
 	}
 }
 
+void Enemy::CheckNextPunch(int index)
+{
+	--index;
+	if (index < 1)
+		return;
+
+	switch (m_Direction)
+	{
+	case Direction::Down:
+	{
+		m_Destination.y += 32.0f;
+
+		auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
+
+		if (wchar != L' ' && wchar != L'#' && wchar != L'A')
+			m_Direction = Direction::Down;
+		else
+		{
+			m_Direction = Direction(rand() % 4);
+			m_Destination.y -= 32.0f;
+			CheckNextPunch(index);
+		}
+		break;
+	}
+	case Direction::Up:
+	{
+		m_Destination.y -= 32.0f;
+
+		auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
+
+		if (wchar != L' ' && wchar != L'#' && wchar != L'A')
+			m_Direction = Direction::Up;
+		else
+		{
+			m_Direction = Direction(rand() % 4);
+			m_Destination.y += 32.0f;
+			CheckNextPunch(index);
+		}
+		break;
+	}
+	case Direction::Right:
+	{
+		m_Destination.x += 32.0f;
+
+		auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
+
+		if (wchar != L' ' && wchar != L'#' && wchar != L'A')
+			m_Direction = Direction::Right;
+		else
+		{
+			m_Direction = Direction(rand() % 4);
+			m_Destination.x -= 32.0f;
+			CheckNextPunch(index);
+		}
+		break;
+	}
+	case Direction::Left:
+	{
+		m_Destination.x -= 32.0f;
+
+		auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
+
+		if (wchar != L' ' && wchar != L'#' && wchar != L'A')
+			m_Direction = Direction::Left;
+		else
+		{
+			m_Direction = Direction(rand() % 4);
+			m_Destination.x += 32.0f;
+			CheckNextPunch(index);
+		}
+		break;
+	}
+	}
+}
+
+void Enemy::CheckPengoDirection()
+{
+	auto position = m_pLevelManager->GetPengo()->GetTransform()->GetPosition();
+
+	auto enemyPos = m_pTransform->GetPosition();
+
+	auto distance = sqrt(pow(position.x - enemyPos.x, 2) + pow(position.y - enemyPos.y, 2));
+
+	//CLIENT_INFO("Distance to Pengo: {0}", distance);
+
+	if (distance <= 160.0f)
+	{
+		auto position = m_pLevelManager->GetPengo()->GetTransform()->GetPosition();
+
+		auto enemyPos = m_pTransform->GetPosition();
+
+		auto horizontalDistance = abs(position.x - enemyPos.x);
+		auto verticalDistance = abs(position.y - enemyPos.y);
+
+		if (horizontalDistance >= verticalDistance)
+		{
+			auto horDistance = position.x - enemyPos.x;
+
+			if (horDistance >= 0)
+			{
+				m_Direction = Direction::Right;
+			}
+			else
+			{
+				m_Direction = Direction::Left;
+			}
+		}
+		else
+		{
+			auto vertDistance = position.y - enemyPos.y;
+
+			if (vertDistance >= 0)
+			{
+				m_Direction = Direction::Down;
+			}
+			else
+			{
+				m_Direction = Direction::Up;
+			}
+		}
+	}
+}
+
 void Enemy::UpdateStates()
 {
+	float elapsedSec = m_pGameTime->GetElapsedSec();
 
+	if (m_WanderTimer > m_WanderCooldown && m_pTransform->GetPosition() == m_Destination)
+	{
+		m_WanderTimer = 0.0f;
+		m_WanderCooldown = float(rand() % 10 + 10);
+		m_State = State::PUNCHING;
+	}
+	if (m_PunchTimer > m_PunchCooldown && m_pTransform->GetPosition() == m_Destination)
+	{
+		m_PunchTimer = 0.0f;
+		m_PunchCooldown = float(rand() % 5 + 5);
+		m_State = State::WANDERING;
+	}
+
+	if (m_State == State::WANDERING)
+	{
+		m_WanderTimer += elapsedSec;
+	}
+	if (m_State == State::PUNCHING)
+	{
+		m_PunchTimer += elapsedSec;
+	}
+
+	if (m_State == State::WANDERING && m_pTransform->GetPosition() == m_Destination)
+	{
+		CheckNextWander(4);
+	}
+	if (m_State == State::PUNCHING && m_pTransform->GetPosition() == m_Destination)
+	{
+		CheckPengoDirection();
+		CheckNextPunch(4);
+	}
 }
 
 void Enemy::UpdateMovement()
@@ -238,9 +393,106 @@ void Enemy::UpdateAnimations()
 		}
 		}
 	}
+	else if (m_State == State::PUNCHING)
+	{
+		switch (m_Direction)
+		{
+		case Direction::Down:
+		{
+			m_pSprite->SetClipIndex(5);
+			break;
+		}
+		case Direction::Up:
+		{
+			m_pSprite->SetClipIndex(8);
+			break;
+		}
+		case Direction::Right:
+		{
+			m_pSprite->SetClipIndex(7);
+			break;
+		}
+		case Direction::Left:
+		{
+			m_pSprite->SetClipIndex(6);
+			break;
+		}
+		case Direction::NONE:
+		{
+			m_pSprite->SetClipIndex(5);
+			break;
+		}
+		}
+	}
 }
 
 void Enemy::Render()
 {
 
+}
+
+void Enemy::OnTrigger(GameObject* gameObject)
+{
+	if (m_State == State::PUNCHING && gameObject->GetTag() == "Block" && m_Direction != Direction::NONE)
+	{
+		switch (m_Direction)
+		{
+		case Direction::Down:
+		{
+			if (gameObject->GetTransform()->GetPosition().y > GetTransform()->GetPosition().y && gameObject->GetTransform()->GetPosition().x == GetTransform()->GetPosition().x)
+			{
+				auto block = static_cast<Block*>(gameObject);
+
+				if (block)
+				{
+					block->Break();
+				}
+			}
+
+			break;
+		}
+		case Direction::Up:
+		{
+			if (gameObject->GetTransform()->GetPosition().y < GetTransform()->GetPosition().y && gameObject->GetTransform()->GetPosition().x == GetTransform()->GetPosition().x)
+			{
+				auto block = static_cast<Block*>(gameObject);
+
+				if (block)
+				{
+					block->Break();
+				}
+			}
+
+			break;
+		}
+		case Direction::Right:
+		{
+			if (gameObject->GetTransform()->GetPosition().x > GetTransform()->GetPosition().x && gameObject->GetTransform()->GetPosition().y == GetTransform()->GetPosition().y)
+			{
+				auto block = static_cast<Block*>(gameObject);
+
+				if (block)
+				{
+					block->Break();
+				}
+			}
+
+			break;
+		}
+		case Direction::Left:
+		{
+			if (gameObject->GetTransform()->GetPosition().x < GetTransform()->GetPosition().x && gameObject->GetTransform()->GetPosition().y == GetTransform()->GetPosition().y)
+			{
+				auto block = static_cast<Block*>(gameObject);
+
+				if (block)
+				{
+					block->Break();
+				}
+			}
+
+			break;
+		}
+		}
+	}
 }

@@ -1,9 +1,8 @@
 #pragma once
 #include "GameObject.h"
-
+#include "LevelManager.h"
 #include "InputManager.h"
 #include "GameTime.h"
-#include "LevelManager.h"
 #include <glm.hpp>
 
 class SpriteComponent;

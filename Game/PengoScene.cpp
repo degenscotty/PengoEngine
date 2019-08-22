@@ -19,9 +19,10 @@ void PengoScene::Initialize()
 {
 	CORE_TRACE("PengoScene was initialized!");
 
-	m_pLevelManager->Initialize();
-
 	m_pPengo = new Pengo();
+
+	m_pLevelManager->Initialize();
+	m_pLevelManager->SetPengo(m_pPengo);
 
 	Add(m_pPengo);
 }

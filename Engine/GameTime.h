@@ -6,11 +6,19 @@
 class GameTime : public Singleton<GameTime>
 {
 public:
+	GameTime();
 	~GameTime() = default;
 
-	void Update();
+	void Initialize();
 	float GetElapsedSec() const;
 	unsigned int GetFPS() const;
+
+	void UpdateCurrentTime();
+	void UpdateElapsedSec();
+	void UpdatePreviousTime();
+
+	void SetCurrentTime(const std::chrono::high_resolution_clock::time_point& timePoint);
+	void SetPreviousTime(const std::chrono::high_resolution_clock::time_point& timePoint);
 
 private:
 

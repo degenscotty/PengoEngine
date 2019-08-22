@@ -1,10 +1,10 @@
 #pragma once
 #include "GameObject.h"
 #include "GameTime.h"
+#include "LevelManager.h"
 #include <glm.hpp>
 
 class SpriteComponent;
-class LevelManager;
 
 class Enemy : public GameObject
 {
@@ -12,7 +12,7 @@ public:
 	enum State
 	{
 		WANDERING,
-		SEEKING,
+		PUNCHING,
 		IDLE
 	};
 
@@ -37,7 +37,11 @@ public:
 	void UpdateMovement();
 	void UpdateAnimations();
 
-	void CheckNextDirection();
+	void CheckNextWander(int index);
+	void CheckNextPunch(int index);
+	void CheckPengoDirection();
+
+	void OnTrigger(GameObject* gameObject);
 
 protected:
 	void Initialize() override;
@@ -58,8 +62,11 @@ private:
 	float m_MoveSpeed;
 	bool m_Destroy;
 
-	float m_SeekTimer;
+	float m_SpawnTimer;
+	float m_PunchTimer;
+	float m_PunchCooldown;
 	float m_WanderTimer;
+	float m_WanderCooldown;
 
 
 };

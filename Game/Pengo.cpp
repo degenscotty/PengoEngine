@@ -1,6 +1,7 @@
 #include "Pengo.h"
 #include "Components.h"
 #include "Block.h"
+#include "ArrowBlock.h"
 #include <string>
 
 Pengo::Pengo()
@@ -123,7 +124,7 @@ void Pengo::UpdateMovement()
 
 				auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
 
-				if (wchar == L'#' || wchar == L'O' || wchar == L' ')
+				if (wchar != L'.')
 				{
 					m_Destination.y -= 32.0f;
 					m_pTransform->Translate(m_Destination);
@@ -149,7 +150,7 @@ void Pengo::UpdateMovement()
 
 				auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
 
-				if (wchar == L'#' || wchar == L'O' || wchar == L' ')
+				if (wchar != L'.')
 				{
 					m_Destination.y += 32.0f;
 					m_pTransform->Translate(m_Destination);
@@ -175,7 +176,7 @@ void Pengo::UpdateMovement()
 
 				auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
 
-				if (wchar == L'#' || wchar == L'O' || wchar == L' ')
+				if (wchar != L'.')
 				{
 					m_Destination.x -= 32.0f;
 					m_pTransform->Translate(m_Destination);
@@ -201,7 +202,7 @@ void Pengo::UpdateMovement()
 
 				auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
 
-				if (wchar == L'#' || wchar == L'O' || wchar == L' ')
+				if (wchar != L'.')
 				{
 					m_Destination.x += 32.0f;
 					m_pTransform->Translate(m_Destination);
@@ -247,7 +248,7 @@ void Pengo::Render()
 
 void Pengo::OnTrigger(GameObject* gameObject)
 {
-	if (m_pInput->IsKeyPressed(KEY_SPACE) && gameObject->GetTag() == "Block" && m_State != State::Idle)
+	if (m_pInput->IsKeyPressed(KEY_SPACE) && (gameObject->GetTag() == "Block" || gameObject->GetTag() == "ArrowBlock") && m_State != State::Idle)
 	{
 		switch (m_Direction)
 		{
@@ -256,13 +257,25 @@ void Pengo::OnTrigger(GameObject* gameObject)
 			m_Destination.y += 32.0f;
 
 			auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
-			if (wchar == L'O' && gameObject->GetTransform()->GetPosition().y > GetTransform()->GetPosition().y && gameObject->GetTransform()->GetPosition().x == GetTransform()->GetPosition().x)
+			if (gameObject->GetTransform()->GetPosition().y > GetTransform()->GetPosition().y && gameObject->GetTransform()->GetPosition().x == GetTransform()->GetPosition().x)
 			{
-				auto block = static_cast<Block*>(gameObject);
-
-				if (block)
+				if (gameObject->GetTag() == "Block")
 				{
-					block->Push(Block::Down);
+					auto block = static_cast<Block*>(gameObject);
+
+					if (block)
+					{
+						block->Push(Block::Down);
+					}
+				}
+				else
+				{
+					auto arrowBlock = static_cast<ArrowBlock*>(gameObject);
+
+					if (arrowBlock)
+					{
+						arrowBlock->Push(ArrowBlock::Down);
+					}
 				}
 			}
 
@@ -274,13 +287,25 @@ void Pengo::OnTrigger(GameObject* gameObject)
 			m_Destination.y -= 32.0f;
 
 			auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
-			if (wchar == L'O' && gameObject->GetTransform()->GetPosition().y < GetTransform()->GetPosition().y && gameObject->GetTransform()->GetPosition().x == GetTransform()->GetPosition().x)
+			if (gameObject->GetTransform()->GetPosition().y < GetTransform()->GetPosition().y && gameObject->GetTransform()->GetPosition().x == GetTransform()->GetPosition().x)
 			{
-				auto block = static_cast<Block*>(gameObject);
-
-				if (block)
+				if (gameObject->GetTag() == "Block")
 				{
-					block->Push(Block::Up);
+					auto block = static_cast<Block*>(gameObject);
+
+					if (block)
+					{
+						block->Push(Block::Up);
+					}
+				}
+				else
+				{
+					auto arrowBlock = static_cast<ArrowBlock*>(gameObject);
+
+					if (arrowBlock)
+					{
+						arrowBlock->Push(ArrowBlock::Up);
+					}
 				}
 			}
 
@@ -292,13 +317,25 @@ void Pengo::OnTrigger(GameObject* gameObject)
 			m_Destination.x += 32.0f;
 
 			auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
-			if (wchar == L'O' && gameObject->GetTransform()->GetPosition().x > GetTransform()->GetPosition().x && gameObject->GetTransform()->GetPosition().y == GetTransform()->GetPosition().y)
+			if (gameObject->GetTransform()->GetPosition().x > GetTransform()->GetPosition().x && gameObject->GetTransform()->GetPosition().y == GetTransform()->GetPosition().y)
 			{
-				auto block = static_cast<Block*>(gameObject);
-
-				if (block)
+				if (gameObject->GetTag() == "Block")
 				{
-					block->Push(Block::Right);
+					auto block = static_cast<Block*>(gameObject);
+
+					if (block)
+					{
+						block->Push(Block::Right);
+					}
+				}
+				else
+				{
+					auto arrowBlock = static_cast<ArrowBlock*>(gameObject);
+
+					if (arrowBlock)
+					{
+						arrowBlock->Push(ArrowBlock::Right);
+					}
 				}
 			}
 
@@ -310,13 +347,25 @@ void Pengo::OnTrigger(GameObject* gameObject)
 			m_Destination.x -= 32.0f;
 
 			auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
-			if (wchar == L'O' && gameObject->GetTransform()->GetPosition().x < GetTransform()->GetPosition().x && gameObject->GetTransform()->GetPosition().y == GetTransform()->GetPosition().y)
+			if (gameObject->GetTransform()->GetPosition().x < GetTransform()->GetPosition().x && gameObject->GetTransform()->GetPosition().y == GetTransform()->GetPosition().y)
 			{
-				auto block = static_cast<Block*>(gameObject);
-
-				if (block)
+				if (gameObject->GetTag() == "Block")
 				{
-					block->Push(Block::Left);
+					auto block = static_cast<Block*>(gameObject);
+
+					if (block)
+					{
+						block->Push(Block::Left);
+					}
+				}
+				else
+				{
+					auto arrowBlock = static_cast<ArrowBlock*>(gameObject);
+
+					if (arrowBlock)
+					{
+						arrowBlock->Push(ArrowBlock::Left);
+					}
 				}
 			}
 

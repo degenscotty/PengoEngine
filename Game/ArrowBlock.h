@@ -6,7 +6,7 @@
 
 class SpriteComponent;
 
-class Block : public GameObject
+class ArrowBlock : public GameObject
 {
 public:
 	enum State
@@ -24,19 +24,17 @@ public:
 		NONE
 	};
 
-	Block(const glm::vec2& position);
-	~Block();
+	ArrowBlock(const glm::vec2& position);
+	~ArrowBlock();
 
-	Block(const Block& other) = delete;
-	Block(Block&& other) = delete;
-	Block& operator=(const Block& other) = delete;
-	Block& operator=(Block&& other) = delete;
+	ArrowBlock(const ArrowBlock& other) = delete;
+	ArrowBlock(ArrowBlock&& other) = delete;
+	ArrowBlock& operator=(const ArrowBlock& other) = delete;
+	ArrowBlock& operator=(ArrowBlock&& other) = delete;
 
 	void UpdateMovement();
-	void UpdateAnimations();
 
 	void Push(const Direction& direction);
-	void Break();
 
 protected:
 	void Initialize() override;
@@ -45,8 +43,8 @@ protected:
 
 private:
 	GameTime* m_pGameTime;
-	SpriteComponent* m_pSpriteComponent;
 	TransformComponent* m_pTransform;
+	SpriteComponent* m_pSpriteComponent;
 	LevelManager* m_pLevelManager;
 
 	glm::vec2 m_SpawnPosition;
@@ -54,7 +52,6 @@ private:
 	glm::vec2 m_Destination;
 	State m_State;
 	bool m_Moving;
-	bool m_Destroy;
 	float m_MoveSpeed;
 	Direction m_Direction;
 };

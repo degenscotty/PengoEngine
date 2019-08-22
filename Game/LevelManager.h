@@ -1,8 +1,9 @@
 #pragma once
 #include "Singleton.h"
-
 #include "SceneManager.h"
 #include <string>
+
+class Pengo;
 
 class LevelManager : public Singleton<LevelManager>
 {
@@ -23,7 +24,11 @@ public:
 	wchar_t GetTile(int x, int y);
 	void SetTile(int x, int y, wchar_t c);
 
+	void SetPengo(Pengo* pengo);
+	Pengo* GetPengo();
+
 private:
+	Pengo* m_pPengo;
 	SceneManager* m_pSceneManager;
 
 	int m_LevelWidth;

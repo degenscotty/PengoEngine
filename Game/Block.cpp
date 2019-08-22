@@ -72,7 +72,7 @@ void Block::UpdateMovement()
 
 				auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
 
-				if (wchar == L'#' || wchar == L'O' || wchar == L' ')
+				if (wchar != '.')
 				{
 					m_Destination.y -= 32.0f;
 					m_pTransform->Translate(m_Destination);
@@ -91,7 +91,7 @@ void Block::UpdateMovement()
 
 				auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
 
-				if (wchar == L'#' || wchar == L'O' || wchar == L' ')
+				if (wchar != '.')
 				{
 					m_Destination.y += 32.0f;
 					m_pTransform->Translate(m_Destination);
@@ -110,7 +110,7 @@ void Block::UpdateMovement()
 
 				auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
 
-				if (wchar == L'#' || wchar == L'O' || wchar == L' ')
+				if (wchar != '.')
 				{
 					m_Destination.x -= 32.0f;
 					m_pTransform->Translate(m_Destination);
@@ -129,7 +129,7 @@ void Block::UpdateMovement()
 
 				auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
 
-				if (wchar == L'#' || wchar == L'O' || wchar == L' ')
+				if (wchar != '.')
 				{
 					m_Destination.x += 32.0f;
 					m_pTransform->Translate(m_Destination);
@@ -166,7 +166,7 @@ void Block::Push(const Direction& direction)
 
 		auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
 
-		if (wchar == L'#' || wchar == L'O' || wchar == L' ')
+		if (wchar != L'.')
 		{
 			m_Destroy = true;
 			m_State = State::BRAKING;
@@ -183,7 +183,7 @@ void Block::Push(const Direction& direction)
 
 		auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
 
-		if (wchar == L'#' || wchar == L'O' || wchar == L' ')
+		if (wchar != L'.')
 		{
 			m_Destroy = true;
 			m_State = State::BRAKING;
@@ -200,7 +200,7 @@ void Block::Push(const Direction& direction)
 
 		auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
 
-		if (wchar == L'#' || wchar == L'O' || wchar == L' ')
+		if (wchar != L'.')
 		{
 			m_Destroy = true;
 			m_State = State::BRAKING;
@@ -217,7 +217,7 @@ void Block::Push(const Direction& direction)
 
 		auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
 
-		if (wchar == L'#' || wchar == L'O' || wchar == L' ')
+		if (wchar != L'.')
 		{
 			m_Destroy = true;
 			m_State = State::BRAKING;
@@ -234,6 +234,13 @@ void Block::Push(const Direction& direction)
 	m_Direction = direction;
 
 	m_pLevelManager->SetTile((int)GetTransform()->GetPosition().x / 16, (int)GetTransform()->GetPosition().y / 16, '.');
+}
+
+void Block::Break()
+{
+	m_Destroy = true;
+	m_State = State::BRAKING;
+	m_pLevelManager->SetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16, '.');
 }
 
 void Block::Render()
