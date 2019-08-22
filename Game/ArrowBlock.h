@@ -36,6 +36,9 @@ public:
 
 	void Push(const Direction& direction);
 
+	bool GetMoving();
+	const ArrowBlock::Direction& GetDirection();
+
 protected:
 	void Initialize() override;
 	void Update() override;

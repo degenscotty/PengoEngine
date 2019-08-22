@@ -38,6 +38,9 @@ public:
 	void Push(const Direction& direction);
 	void Break();
 
+	bool GetMoving();
+	const Block::Direction& GetDirection();
+
 protected:
 	void Initialize() override;
 	void Update() override;

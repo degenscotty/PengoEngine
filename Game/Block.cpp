@@ -243,6 +243,16 @@ void Block::Break()
 	m_pLevelManager->SetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16, '.');
 }
 
+bool Block::GetMoving()
+{
+	return m_Moving;
+}
+
+const Block::Direction& Block::GetDirection()
+{
+	return m_Direction;
+}
+
 void Block::Render()
 {
 }

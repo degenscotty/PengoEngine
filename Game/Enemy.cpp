@@ -1,6 +1,8 @@
 #include "Enemy.h"
 #include "Components.h"
 #include "Block.h"
+#include "ArrowBlock.h"
+#include "GarbageCollector.h"
 #include "Pengo.h"
 #include <string>
 #include <time.h>
@@ -21,6 +23,8 @@ Enemy::Enemy(const glm::vec2& position)
 	, m_SpawnTimer(0.0f)
 	, m_PunchCooldown(float(rand() % 5 + 5))
 	, m_WanderCooldown(float(rand() % 10 + 10))
+	, m_StickToBlock(false)
+	, m_pStickBlock(nullptr)
 {
 }
 
@@ -72,9 +76,17 @@ void Enemy::Update()
 {
 	srand(unsigned int(time(NULL)));
 
-	UpdateStates();
-	UpdateMovement();
-	UpdateAnimations();
+	if (!m_StickToBlock)
+	{
+		UpdateStates();
+		UpdateMovement();
+		UpdateAnimations();
+	}
+	else
+	{
+		FollowStickBlock();
+		UpdateAnimations();
+	}
 }
 
 void Enemy::CheckNextWander(int index)
@@ -424,6 +436,151 @@ void Enemy::UpdateAnimations()
 		}
 		}
 	}
+	else if (m_State == State::STICKING)
+	{
+		switch (m_Direction)
+		{
+		case Direction::Down:
+		{
+			m_pSprite->SetClipIndex(9);
+			break;
+		}
+		case Direction::Up:
+		{
+			m_pSprite->SetClipIndex(12);
+			break;
+		}
+		case Direction::Right:
+		{
+			m_pSprite->SetClipIndex(11);
+			break;
+		}
+		case Direction::Left:
+		{
+			m_pSprite->SetClipIndex(10);
+			break;
+		}
+		case Direction::NONE:
+		{
+			m_pSprite->SetClipIndex(9);
+			break;
+		}
+		}
+	}
+}
+
+void Enemy::FollowStickBlock()
+{
+	if (m_pStickBlock)
+	{
+		auto block = dynamic_cast<Block*>(m_pStickBlock);
+		auto arrowBlock = dynamic_cast<ArrowBlock*>(m_pStickBlock);
+
+		if (block)
+		{
+			if (!block->GetMoving())
+			{
+				GarbageCollector::GetInstance()->Destroy(this);
+				return;
+			}
+
+			switch (block->GetDirection())
+			{
+			case Block::Down:
+			{
+				if (m_pTransform->GetPosition().y > block->GetTransform()->GetPosition().y)
+				{
+					m_pTransform->Translate(block->GetTransform()->GetPosition().x, block->GetTransform()->GetPosition().y + 32.0f);
+					m_State = State::STICKING;
+					m_Direction = Direction::Down;
+				}
+			}
+			break;
+			case Block::Up:
+			{
+				if (m_pTransform->GetPosition().y < block->GetTransform()->GetPosition().y)
+				{
+					m_pTransform->Translate(block->GetTransform()->GetPosition().x, block->GetTransform()->GetPosition().y - 32.0f);
+					m_State = State::STICKING;
+					m_Direction = Direction::Up;
+				}
+			}
+			break;
+			case Block::Right:
+			{
+				if (m_pTransform->GetPosition().x > block->GetTransform()->GetPosition().x)
+				{
+					m_pTransform->Translate(block->GetTransform()->GetPosition().x + 32.0f, block->GetTransform()->GetPosition().y);
+					m_State = State::STICKING;
+					m_Direction = Direction::Right;
+				}
+			}
+			break;
+			case Block::Left:
+			{
+				if (m_pTransform->GetPosition().x < block->GetTransform()->GetPosition().x)
+				{
+					m_pTransform->Translate(block->GetTransform()->GetPosition().x - 32.0f, block->GetTransform()->GetPosition().y);
+					m_State = State::STICKING;
+					m_Direction = Direction::Left;
+				}
+			}
+			break;
+			}
+		}
+		else if (arrowBlock)
+		{
+			if (!arrowBlock->GetMoving())
+			{
+				GarbageCollector::GetInstance()->Destroy(this);
+				return;
+			}
+
+			switch (arrowBlock->GetDirection())
+			{
+			case ArrowBlock::Down:
+			{
+				if (m_pTransform->GetPosition().y > block->GetTransform()->GetPosition().y)
+				{
+					m_pTransform->Translate(block->GetTransform()->GetPosition().x, block->GetTransform()->GetPosition().y + 32.0f);
+					m_State = State::STICKING;
+					m_Direction = Direction::Down;
+				}
+			}
+			break;
+			case ArrowBlock::Up:
+			{
+				if (m_pTransform->GetPosition().y < block->GetTransform()->GetPosition().y)
+				{
+					m_pTransform->Translate(block->GetTransform()->GetPosition().x, block->GetTransform()->GetPosition().y - 32.0f);
+					m_State = State::STICKING;
+					m_Direction = Direction::Up;
+				}
+			}
+			break;
+			case ArrowBlock::Right:
+			{
+				if (m_pTransform->GetPosition().x > block->GetTransform()->GetPosition().x)
+				{
+					m_pTransform->Translate(block->GetTransform()->GetPosition().x + 32.0f, block->GetTransform()->GetPosition().y);
+					m_State = State::STICKING;
+					m_Direction = Direction::Right;
+				}
+			}
+			break;
+			case ArrowBlock::Left:
+			{
+				if (m_pTransform->GetPosition().x < block->GetTransform()->GetPosition().x)
+				{
+					m_pTransform->Translate(block->GetTransform()->GetPosition().x - 32.0f, block->GetTransform()->GetPosition().y);
+					m_State = State::STICKING;
+					m_Direction = Direction::Left;
+				}
+			}
+			break;
+			}
+		}
+	}
 }
 
 void Enemy::Render()
@@ -433,7 +590,26 @@ void Enemy::Render()
 
 void Enemy::OnTrigger(GameObject* gameObject)
 {
-	if (m_State == State::PUNCHING && gameObject->GetTag() == "Block" && m_Direction != Direction::NONE)
+	if ((gameObject->GetTag() == "Block" || gameObject->GetTag() == "ArrowBlock") && !m_StickToBlock)
+	{
+		auto block = dynamic_cast<Block*>(gameObject);
+		auto arrowBlock = dynamic_cast<ArrowBlock*>(gameObject);
+
+		if (block && block->GetMoving() && gameObject->GetTag() == "Block")
+		{
+			m_State = State::STICKING;
+			m_pStickBlock = gameObject;
+			m_StickToBlock = true;
+		}
+		if (arrowBlock && arrowBlock->GetMoving() && gameObject->GetTag() == "ArrowBlock")
+		{
+			m_State = State::STICKING;
+			m_pStickBlock = gameObject;
+			m_StickToBlock = true;
+		}
+	}
+
+	if (m_State == State::PUNCHING && gameObject->GetTag() == "Block" && m_Direction != Direction::NONE && !m_StickToBlock)
 	{
 		switch (m_Direction)
 		{
@@ -441,7 +617,7 @@ void Enemy::OnTrigger(GameObject* gameObject)
 		{
 			if (gameObject->GetTransform()->GetPosition().y > GetTransform()->GetPosition().y && gameObject->GetTransform()->GetPosition().x == GetTransform()->GetPosition().x)
 			{
-				auto block = static_cast<Block*>(gameObject);
+				auto block = dynamic_cast<Block*>(gameObject);
 
 				if (block)
 				{
@@ -455,7 +631,7 @@ void Enemy::OnTrigger(GameObject* gameObject)
 		{
 			if (gameObject->GetTransform()->GetPosition().y < GetTransform()->GetPosition().y && gameObject->GetTransform()->GetPosition().x == GetTransform()->GetPosition().x)
 			{
-				auto block = static_cast<Block*>(gameObject);
+				auto block = dynamic_cast<Block*>(gameObject);
 
 				if (block)
 				{
@@ -469,7 +645,7 @@ void Enemy::OnTrigger(GameObject* gameObject)
 		{
 			if (gameObject->GetTransform()->GetPosition().x > GetTransform()->GetPosition().x && gameObject->GetTransform()->GetPosition().y == GetTransform()->GetPosition().y)
 			{
-				auto block = static_cast<Block*>(gameObject);
+				auto block = dynamic_cast<Block*>(gameObject);
 
 				if (block)
 				{
@@ -483,7 +659,7 @@ void Enemy::OnTrigger(GameObject* gameObject)
 		{
 			if (gameObject->GetTransform()->GetPosition().x < GetTransform()->GetPosition().x && gameObject->GetTransform()->GetPosition().y == GetTransform()->GetPosition().y)
 			{
-				auto block = static_cast<Block*>(gameObject);
+				auto block = dynamic_cast<Block*>(gameObject);
 
 				if (block)
 				{

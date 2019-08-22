@@ -13,6 +13,7 @@ public:
 	{
 		WANDERING,
 		PUNCHING,
+		STICKING,
 		IDLE
 	};
 
@@ -41,6 +42,8 @@ public:
 	void CheckNextPunch(int index);
 	void CheckPengoDirection();
 
+	void FollowStickBlock();
+
 	void OnTrigger(GameObject* gameObject);
 
 protected:
@@ -59,15 +62,17 @@ private:
 	glm::vec2 m_Destination;
 	State m_State;
 	Direction m_Direction;
-	float m_MoveSpeed;
-	bool m_Destroy;
 
+	float m_MoveSpeed;
 	float m_SpawnTimer;
 	float m_PunchTimer;
 	float m_PunchCooldown;
 	float m_WanderTimer;
 	float m_WanderCooldown;
 
-
+	bool m_Destroy;
+	
+	GameObject* m_pStickBlock;
+	bool m_StickToBlock;
 };
 

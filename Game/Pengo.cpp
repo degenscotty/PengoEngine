@@ -261,7 +261,7 @@ void Pengo::OnTrigger(GameObject* gameObject)
 			{
 				if (gameObject->GetTag() == "Block")
 				{
-					auto block = static_cast<Block*>(gameObject);
+					auto block = dynamic_cast<Block*>(gameObject);
 
 					if (block)
 					{
@@ -270,7 +270,7 @@ void Pengo::OnTrigger(GameObject* gameObject)
 				}
 				else
 				{
-					auto arrowBlock = static_cast<ArrowBlock*>(gameObject);
+					auto arrowBlock = dynamic_cast<ArrowBlock*>(gameObject);
 
 					if (arrowBlock)
 					{
@@ -291,7 +291,7 @@ void Pengo::OnTrigger(GameObject* gameObject)
 			{
 				if (gameObject->GetTag() == "Block")
 				{
-					auto block = static_cast<Block*>(gameObject);
+					auto block = dynamic_cast<Block*>(gameObject);
 
 					if (block)
 					{
@@ -300,7 +300,7 @@ void Pengo::OnTrigger(GameObject* gameObject)
 				}
 				else
 				{
-					auto arrowBlock = static_cast<ArrowBlock*>(gameObject);
+					auto arrowBlock = dynamic_cast<ArrowBlock*>(gameObject);
 
 					if (arrowBlock)
 					{
@@ -321,7 +321,7 @@ void Pengo::OnTrigger(GameObject* gameObject)
 			{
 				if (gameObject->GetTag() == "Block")
 				{
-					auto block = static_cast<Block*>(gameObject);
+					auto block = dynamic_cast<Block*>(gameObject);
 
 					if (block)
 					{
@@ -330,7 +330,7 @@ void Pengo::OnTrigger(GameObject* gameObject)
 				}
 				else
 				{
-					auto arrowBlock = static_cast<ArrowBlock*>(gameObject);
+					auto arrowBlock = dynamic_cast<ArrowBlock*>(gameObject);
 
 					if (arrowBlock)
 					{
@@ -351,7 +351,7 @@ void Pengo::OnTrigger(GameObject* gameObject)
 			{
 				if (gameObject->GetTag() == "Block")
 				{
-					auto block = static_cast<Block*>(gameObject);
+					auto block = dynamic_cast<Block*>(gameObject);
 
 					if (block)
 					{
@@ -360,7 +360,7 @@ void Pengo::OnTrigger(GameObject* gameObject)
 				}
 				else
 				{
-					auto arrowBlock = static_cast<ArrowBlock*>(gameObject);
+					auto arrowBlock = dynamic_cast<ArrowBlock*>(gameObject);
 
 					if (arrowBlock)
 					{

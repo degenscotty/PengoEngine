@@ -143,6 +143,16 @@ void ArrowBlock::Push(const Direction& direction)
 	m_pLevelManager->SetTile((int)GetTransform()->GetPosition().x / 16, (int)GetTransform()->GetPosition().y / 16, '.');
 }
 
+bool ArrowBlock::GetMoving()
+{
+	return m_Moving;
+}
+
+const ArrowBlock::Direction& ArrowBlock::GetDirection()
+{
+	return m_Direction;
+}
+
 void ArrowBlock::Render()
 {
 }
