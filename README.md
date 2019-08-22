@@ -13,4 +13,4 @@ I started the engine from scratch following TheCherno on youtube! Big thanks to 
  - [imgui](https://github.com/ocornut/imgui)
  
 ## ScreenShot
-![](ScreenShots/Pengo.PNG)
+![](ScreenShots/Pengo.PNG; ScreenShots/Pengo2.PNG)
