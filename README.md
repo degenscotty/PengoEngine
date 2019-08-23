@@ -10,7 +10,6 @@ I started the engine from scratch following TheCherno on youtube! Big thanks to 
  - [SDL2_ttf](https://www.libsdl.org/projects/SDL_ttf/)
  - [glm](https://github.com/g-truc/glm)
  - [spdlog](https://github.com/gabime/spdlog)
- - [imgui](https://github.com/ocornut/imgui)
  
 ## ScreenShot
-![](ScreenShots/Pengo.PNG)
+![](ScreenShots/Pengo.PNG) ![](ScreenShots/Pengo2.PNG)
