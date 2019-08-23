@@ -7,7 +7,7 @@ Block::Block(const glm::vec2& position)
 	, m_Moving(false)
 	, m_Direction(Direction::NONE)
 	, m_pLevelManager(LevelManager::GetInstance())
-	, m_MoveSpeed(150)
+	, m_MoveSpeed(200)
 	, m_Destination()
 	, m_pGameTime(GameTime::GetInstance())
 	, m_pTransform(GetTransform())
@@ -251,6 +251,11 @@ bool Block::GetMoving()
 const Block::Direction& Block::GetDirection()
 {
 	return m_Direction;
+}
+
+const Block::State& Block::GetState()
+{
+	return m_State;
 }
 
 void Block::Render()

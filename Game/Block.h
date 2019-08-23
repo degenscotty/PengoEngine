@@ -41,6 +41,8 @@ public:
 	bool GetMoving();
 	const Block::Direction& GetDirection();
 
+	const State& GetState();
+
 protected:
 	void Initialize() override;
 	void Update() override;

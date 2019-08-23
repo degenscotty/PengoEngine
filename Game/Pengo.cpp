@@ -2,11 +2,12 @@
 #include "Components.h"
 #include "Block.h"
 #include "ArrowBlock.h"
+#include "Wall.h"
 #include <string>
 
 Pengo::Pengo()
 	: m_pTransform(GetTransform())
-	, m_Sprite(nullptr)
+	, m_pSpriteComponent(nullptr)
 	, m_pInput(InputManager::GetInstance())
 	, m_MoveSpeed(100.0f)
 	, m_State(State::Idle)
@@ -14,6 +15,9 @@ Pengo::Pengo()
 	, m_Destination()
 	, m_pGameTime(GameTime::GetInstance())
 	, m_pLevelManager(LevelManager::GetInstance())
+	, m_Push(false)
+	, m_PushAvailable(true)
+	, m_PushTimer(0.0f)
 {
 }
 
@@ -25,14 +29,20 @@ void Pengo::Initialize()
 {
 	// ------------------------------- Sprite Component ------------------------------------- //
 
-	m_Sprite = new SpriteComponent("Pengo.png", 4, 2, 32);
+	m_pSpriteComponent = new SpriteComponent("Pengo.png", 8, 2, 32);
 
-	m_Sprite->AddClip(2, true);
-	m_Sprite->AddClip(2, true);
-	m_Sprite->AddClip(2, true);
-	m_Sprite->AddClip(2, true);
+	m_pSpriteComponent->AddClip(2, true);
+	m_pSpriteComponent->AddClip(2, true);
+	m_pSpriteComponent->AddClip(2, true);
+	m_pSpriteComponent->AddClip(2, true);
 
-	AddComponent(m_Sprite);
+	m_pSpriteComponent->AddClip(2, false);
+	m_pSpriteComponent->AddClip(2, false);
+	m_pSpriteComponent->AddClip(2, false);
+	m_pSpriteComponent->AddClip(2, false);
+
+
+	AddComponent(m_pSpriteComponent);
 
 	// ------------------------------- Collision Component ------------------------------------- //
 
@@ -104,8 +114,29 @@ void Pengo::MoveNext()
 
 void Pengo::Update()
 {
-	UpdateMovement();
-	UpdateAnimations();
+	if (!m_PushAvailable)
+	{
+		m_PushTimer += m_pGameTime->GetElapsedSec();
+
+		if (m_PushTimer > 0.6f)
+		{
+			m_PushAvailable = true;
+			m_PushTimer = 0.0f;
+		}
+	}
+
+	if (m_Push)
+	{
+		if (m_pSpriteComponent->CheckEndOfCurrentClip())
+		{
+			m_Push = false;
+		}
+	}
+	else
+	{
+		UpdateMovement();
+		UpdateAnimations();
+	}
 }
 
 void Pengo::UpdateMovement()
@@ -225,19 +256,19 @@ void Pengo::UpdateAnimations()
 	switch (m_State)
 	{
 	case State::Idle:
-		m_Sprite->SetClipIndex(State::MoveDown);
+		m_pSpriteComponent->SetClipIndex(State::MoveDown);
 		break;
 	case State::MoveDown:
-		m_Sprite->SetClipIndex(State::MoveDown);
+		m_pSpriteComponent->SetClipIndex(State::MoveDown);
 		break;
 	case State::MoveUp:
-		m_Sprite->SetClipIndex(State::MoveUp);
+		m_pSpriteComponent->SetClipIndex(State::MoveUp);
 		break;
 	case State::MoveRight:
-		m_Sprite->SetClipIndex(State::MoveRight);
+		m_pSpriteComponent->SetClipIndex(State::MoveRight);
 		break;
 	case State::MoveLeft:
-		m_Sprite->SetClipIndex(State::MoveLeft);
+		m_pSpriteComponent->SetClipIndex(State::MoveLeft);
 		break;
 	}
 }
@@ -248,15 +279,23 @@ void Pengo::Render()
 
 void Pengo::OnTrigger(GameObject* gameObject)
 {
-	if (m_pInput->IsKeyPressed(KEY_SPACE) && (gameObject->GetTag() == "Block" || gameObject->GetTag() == "ArrowBlock") && m_State != State::Idle)
+	if (!m_Push && m_PushAvailable && m_pInput->IsKeyPressed(KEY_SPACE) && (gameObject->GetTag() == "Block" || gameObject->GetTag() == "ArrowBlock") && m_State != State::Idle)
 	{
+		auto block = dynamic_cast<Block*>(gameObject);
+		auto arrowBlock = dynamic_cast<ArrowBlock*>(gameObject);
+
+		if (block && block->GetState() == Block::BRAKING)
+			return;
+
+		if (arrowBlock && arrowBlock->GetState() == ArrowBlock::BRAKING)
+			return;
+
 		switch (m_Direction)
 		{
 		case Direction::Down:
 		{
 			m_Destination.y += 32.0f;
 
-			auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
 			if (gameObject->GetTransform()->GetPosition().y > GetTransform()->GetPosition().y && gameObject->GetTransform()->GetPosition().x == GetTransform()->GetPosition().x)
 			{
 				if (gameObject->GetTag() == "Block")
@@ -266,6 +305,10 @@ void Pengo::OnTrigger(GameObject* gameObject)
 					if (block)
 					{
 						block->Push(Block::Down);
+						m_State = State::PushDown;
+						m_pSpriteComponent->SetClipIndex(State::PushDown);
+						m_Push = true;
+						m_PushAvailable = false;
 					}
 				}
 				else
@@ -275,6 +318,10 @@ void Pengo::OnTrigger(GameObject* gameObject)
 					if (arrowBlock)
 					{
 						arrowBlock->Push(ArrowBlock::Down);
+						m_State = State::PushDown;
+						m_pSpriteComponent->SetClipIndex(State::PushDown);
+						m_Push = true;
+						m_PushAvailable = false;
 					}
 				}
 			}
@@ -286,7 +333,6 @@ void Pengo::OnTrigger(GameObject* gameObject)
 		{
 			m_Destination.y -= 32.0f;
 
-			auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
 			if (gameObject->GetTransform()->GetPosition().y < GetTransform()->GetPosition().y && gameObject->GetTransform()->GetPosition().x == GetTransform()->GetPosition().x)
 			{
 				if (gameObject->GetTag() == "Block")
@@ -296,6 +342,10 @@ void Pengo::OnTrigger(GameObject* gameObject)
 					if (block)
 					{
 						block->Push(Block::Up);
+						m_State = State::PushUp;
+						m_pSpriteComponent->SetClipIndex(State::PushUp);
+						m_Push = true;
+						m_PushAvailable = false;
 					}
 				}
 				else
@@ -305,6 +355,10 @@ void Pengo::OnTrigger(GameObject* gameObject)
 					if (arrowBlock)
 					{
 						arrowBlock->Push(ArrowBlock::Up);
+						m_State = State::PushUp;
+						m_pSpriteComponent->SetClipIndex(State::PushUp);
+						m_Push = true;
+						m_PushAvailable = false;
 					}
 				}
 			}
@@ -316,7 +370,6 @@ void Pengo::OnTrigger(GameObject* gameObject)
 		{
 			m_Destination.x += 32.0f;
 
-			auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
 			if (gameObject->GetTransform()->GetPosition().x > GetTransform()->GetPosition().x && gameObject->GetTransform()->GetPosition().y == GetTransform()->GetPosition().y)
 			{
 				if (gameObject->GetTag() == "Block")
@@ -326,6 +379,10 @@ void Pengo::OnTrigger(GameObject* gameObject)
 					if (block)
 					{
 						block->Push(Block::Right);
+						m_State = State::PushRight;
+						m_pSpriteComponent->SetClipIndex(State::PushRight);
+						m_Push = true;
+						m_PushAvailable = false;
 					}
 				}
 				else
@@ -335,6 +392,10 @@ void Pengo::OnTrigger(GameObject* gameObject)
 					if (arrowBlock)
 					{
 						arrowBlock->Push(ArrowBlock::Right);
+						m_State = State::PushRight;
+						m_pSpriteComponent->SetClipIndex(State::PushRight);
+						m_Push = true;
+						m_PushAvailable = false;
 					}
 				}
 			}
@@ -346,7 +407,6 @@ void Pengo::OnTrigger(GameObject* gameObject)
 		{
 			m_Destination.x -= 32.0f;
 
-			auto wchar = m_pLevelManager->GetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16);
 			if (gameObject->GetTransform()->GetPosition().x < GetTransform()->GetPosition().x && gameObject->GetTransform()->GetPosition().y == GetTransform()->GetPosition().y)
 			{
 				if (gameObject->GetTag() == "Block")
@@ -356,6 +416,10 @@ void Pengo::OnTrigger(GameObject* gameObject)
 					if (block)
 					{
 						block->Push(Block::Left);
+						m_State = State::PushLeft;
+						m_pSpriteComponent->SetClipIndex(State::PushLeft);
+						m_Push = true;
+						m_PushAvailable = false;
 					}
 				}
 				else
@@ -365,6 +429,10 @@ void Pengo::OnTrigger(GameObject* gameObject)
 					if (arrowBlock)
 					{
 						arrowBlock->Push(ArrowBlock::Left);
+						m_State = State::PushLeft;
+						m_pSpriteComponent->SetClipIndex(State::PushLeft);
+						m_Push = true;
+						m_PushAvailable = false;
 					}
 				}
 			}
@@ -372,6 +440,78 @@ void Pengo::OnTrigger(GameObject* gameObject)
 			m_Destination.x += 32.0f;
 			break;
 		}
+		}
+	}
+
+	if (!m_Push && m_PushAvailable && m_pInput->IsKeyPressed(KEY_SPACE) && gameObject->GetTag() == "Wall")
+	{
+		auto wall = dynamic_cast<Wall*>(gameObject);
+
+		if (wall->GetWiggle())
+			return;
+
+		switch (m_Direction)
+		{
+		case Direction::Down:
+		{
+			if (gameObject->GetTransform()->GetPosition().y > 495.0f)
+			{
+				if (wall)
+				{
+					wall->TriggerWiggle(Wall::Down);
+					m_State = State::PushDown;
+					m_pSpriteComponent->SetClipIndex(State::PushDown);
+					m_Push = true;
+					m_PushAvailable = false;
+				}
+			}
+		}
+		break;
+		case Direction::Up:
+		{
+			if (gameObject->GetTransform()->GetPosition().y < 5.0f)
+			{
+				if (wall)
+				{
+					wall->TriggerWiggle(Wall::Up);
+					m_State = State::PushUp;
+					m_pSpriteComponent->SetClipIndex(State::PushUp);
+					m_Push = true;
+					m_PushAvailable = false;
+				}
+			}
+		}
+		break;
+		case Direction::Right:
+		{
+			if (gameObject->GetTransform()->GetPosition().x > 431.0f)
+			{
+				if (wall)
+				{
+					wall->TriggerWiggle(Wall::Right);
+					m_State = State::PushRight;
+					m_pSpriteComponent->SetClipIndex(State::PushRight);
+					m_Push = true;
+					m_PushAvailable = false;
+				}
+			}
+		}
+		break;
+		case Direction::Left:
+		{
+			if (gameObject->GetTransform()->GetPosition().x < 5.0f)
+			{
+				if (wall)
+				{
+					wall->TriggerWiggle(Wall::Left);
+					m_State = State::PushLeft;
+					m_pSpriteComponent->SetClipIndex(State::PushLeft);
+					m_Push = true;
+					m_PushAvailable = false;
+				}
+			}
+		}
+		break;
 		}
 	}
 }

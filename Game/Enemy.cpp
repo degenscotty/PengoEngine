@@ -488,42 +488,30 @@ void Enemy::FollowStickBlock()
 			{
 			case Block::Down:
 			{
-				if (m_pTransform->GetPosition().y > block->GetTransform()->GetPosition().y)
-				{
-					m_pTransform->Translate(block->GetTransform()->GetPosition().x, block->GetTransform()->GetPosition().y + 32.0f);
-					m_State = State::STICKING;
-					m_Direction = Direction::Down;
-				}
+				m_pTransform->Translate(block->GetTransform()->GetPosition().x, block->GetTransform()->GetPosition().y + 32.0f);
+				m_State = State::STICKING;
+				m_Direction = Direction::Down;
 			}
 			break;
 			case Block::Up:
 			{
-				if (m_pTransform->GetPosition().y < block->GetTransform()->GetPosition().y)
-				{
-					m_pTransform->Translate(block->GetTransform()->GetPosition().x, block->GetTransform()->GetPosition().y - 32.0f);
-					m_State = State::STICKING;
-					m_Direction = Direction::Up;
-				}
+				m_pTransform->Translate(block->GetTransform()->GetPosition().x, block->GetTransform()->GetPosition().y - 32.0f);
+				m_State = State::STICKING;
+				m_Direction = Direction::Up;
 			}
 			break;
 			case Block::Right:
 			{
-				if (m_pTransform->GetPosition().x > block->GetTransform()->GetPosition().x)
-				{
-					m_pTransform->Translate(block->GetTransform()->GetPosition().x + 32.0f, block->GetTransform()->GetPosition().y);
-					m_State = State::STICKING;
-					m_Direction = Direction::Right;
-				}
+				m_pTransform->Translate(block->GetTransform()->GetPosition().x + 32.0f, block->GetTransform()->GetPosition().y);
+				m_State = State::STICKING;
+				m_Direction = Direction::Right;
 			}
 			break;
 			case Block::Left:
 			{
-				if (m_pTransform->GetPosition().x < block->GetTransform()->GetPosition().x)
-				{
-					m_pTransform->Translate(block->GetTransform()->GetPosition().x - 32.0f, block->GetTransform()->GetPosition().y);
-					m_State = State::STICKING;
-					m_Direction = Direction::Left;
-				}
+				m_pTransform->Translate(block->GetTransform()->GetPosition().x - 32.0f, block->GetTransform()->GetPosition().y);
+				m_State = State::STICKING;
+				m_Direction = Direction::Left;
 			}
 			break;
 			}
@@ -540,42 +528,30 @@ void Enemy::FollowStickBlock()
 			{
 			case ArrowBlock::Down:
 			{
-				if (m_pTransform->GetPosition().y > block->GetTransform()->GetPosition().y)
-				{
-					m_pTransform->Translate(block->GetTransform()->GetPosition().x, block->GetTransform()->GetPosition().y + 32.0f);
-					m_State = State::STICKING;
-					m_Direction = Direction::Down;
-				}
+				m_pTransform->Translate(arrowBlock->GetTransform()->GetPosition().x, arrowBlock->GetTransform()->GetPosition().y + 32.0f);
+				m_State = State::STICKING;
+				m_Direction = Direction::Down;
 			}
 			break;
 			case ArrowBlock::Up:
 			{
-				if (m_pTransform->GetPosition().y < block->GetTransform()->GetPosition().y)
-				{
-					m_pTransform->Translate(block->GetTransform()->GetPosition().x, block->GetTransform()->GetPosition().y - 32.0f);
-					m_State = State::STICKING;
-					m_Direction = Direction::Up;
-				}
+				m_pTransform->Translate(arrowBlock->GetTransform()->GetPosition().x, arrowBlock->GetTransform()->GetPosition().y - 32.0f);
+				m_State = State::STICKING;
+				m_Direction = Direction::Up;
 			}
 			break;
 			case ArrowBlock::Right:
 			{
-				if (m_pTransform->GetPosition().x > block->GetTransform()->GetPosition().x)
-				{
-					m_pTransform->Translate(block->GetTransform()->GetPosition().x + 32.0f, block->GetTransform()->GetPosition().y);
-					m_State = State::STICKING;
-					m_Direction = Direction::Right;
-				}
+				m_pTransform->Translate(arrowBlock->GetTransform()->GetPosition().x + 32.0f, arrowBlock->GetTransform()->GetPosition().y);
+				m_State = State::STICKING;
+				m_Direction = Direction::Right;
 			}
 			break;
 			case ArrowBlock::Left:
 			{
-				if (m_pTransform->GetPosition().x < block->GetTransform()->GetPosition().x)
-				{
-					m_pTransform->Translate(block->GetTransform()->GetPosition().x - 32.0f, block->GetTransform()->GetPosition().y);
-					m_State = State::STICKING;
-					m_Direction = Direction::Left;
-				}
+				m_pTransform->Translate(arrowBlock->GetTransform()->GetPosition().x - 32.0f, arrowBlock->GetTransform()->GetPosition().y);
+				m_State = State::STICKING;
+				m_Direction = Direction::Left;
 			}
 			break;
 			}
@@ -597,15 +573,95 @@ void Enemy::OnTrigger(GameObject* gameObject)
 
 		if (block && block->GetMoving() && gameObject->GetTag() == "Block")
 		{
-			m_State = State::STICKING;
-			m_pStickBlock = gameObject;
-			m_StickToBlock = true;
+			switch (block->GetDirection())
+			{
+			case Block::Down:
+			{
+				if (m_pTransform->GetPosition().y > block->GetTransform()->GetPosition().y)
+				{
+					m_State = State::STICKING;
+					m_pStickBlock = gameObject;
+					m_StickToBlock = true;
+				}
+			}
+			break;
+			case Block::Up:
+			{
+				if (m_pTransform->GetPosition().y < block->GetTransform()->GetPosition().y)
+				{
+					m_State = State::STICKING;
+					m_pStickBlock = gameObject;
+					m_StickToBlock = true;
+				}
+			}
+			break;
+			case Block::Right:
+			{
+				if (m_pTransform->GetPosition().x > block->GetTransform()->GetPosition().x)
+				{
+					m_State = State::STICKING;
+					m_pStickBlock = gameObject;
+					m_StickToBlock = true;
+				}
+			}
+			break;
+			case Block::Left:
+			{
+				if (m_pTransform->GetPosition().x < block->GetTransform()->GetPosition().x)
+				{
+					m_State = State::STICKING;
+					m_pStickBlock = gameObject;
+					m_StickToBlock = true;
+				}
+			}
+			break;
+			}
 		}
 		if (arrowBlock && arrowBlock->GetMoving() && gameObject->GetTag() == "ArrowBlock")
 		{
-			m_State = State::STICKING;
-			m_pStickBlock = gameObject;
-			m_StickToBlock = true;
+			switch (arrowBlock->GetDirection())
+			{
+			case ArrowBlock::Down:
+			{
+				if (m_pTransform->GetPosition().y > arrowBlock->GetTransform()->GetPosition().y)
+				{
+					m_State = State::STICKING;
+					m_pStickBlock = gameObject;
+					m_StickToBlock = true;
+				}
+			}
+			break;
+			case ArrowBlock::Up:
+			{
+				if (m_pTransform->GetPosition().y < arrowBlock->GetTransform()->GetPosition().y)
+				{
+					m_State = State::STICKING;
+					m_pStickBlock = gameObject;
+					m_StickToBlock = true;
+				}
+			}
+			break;
+			case ArrowBlock::Right:
+			{
+				if (m_pTransform->GetPosition().x > arrowBlock->GetTransform()->GetPosition().x)
+				{
+					m_State = State::STICKING;
+					m_pStickBlock = gameObject;
+					m_StickToBlock = true;
+				}
+			}
+			break;
+			case ArrowBlock::Left:
+			{
+				if (m_pTransform->GetPosition().x < arrowBlock->GetTransform()->GetPosition().x)
+				{
+					m_State = State::STICKING;
+					m_pStickBlock = gameObject;
+					m_StickToBlock = true;
+				}
+			}
+			break;
+			}
 		}
 	}
 

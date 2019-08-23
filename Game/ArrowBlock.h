@@ -39,6 +39,8 @@ public:
 	bool GetMoving();
 	const ArrowBlock::Direction& GetDirection();
 
+	const State& GetState();
+
 protected:
 	void Initialize() override;
 	void Update() override;

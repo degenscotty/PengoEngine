@@ -17,6 +17,10 @@ public:
 		MoveUp,
 		MoveRight,
 		MoveLeft,
+		PushDown,
+		PushUp,
+		PushLeft,
+		PushRight,
 		Idle
 	};
 
@@ -54,11 +58,15 @@ private:
 	LevelManager* m_pLevelManager;
 
 	TransformComponent* m_pTransform;
-	SpriteComponent* m_Sprite;
+	SpriteComponent* m_pSpriteComponent;
 
 	glm::vec2 m_Destination;
 	State m_State;
 	Direction m_Direction;
 	float m_MoveSpeed;
+
+	bool m_Push;
+	bool m_PushAvailable;
+	float m_PushTimer;
 };
 

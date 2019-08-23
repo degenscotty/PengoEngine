@@ -8,7 +8,7 @@ ArrowBlock::ArrowBlock(const glm::vec2& position)
 	, m_Direction(Direction::NONE)
 	, m_Destination()
 	, m_Moving(false)
-	, m_MoveSpeed(150)
+	, m_MoveSpeed(200)
 	, m_pLevelManager(LevelManager::GetInstance())
 	, m_pGameTime(GameTime::GetInstance())
 	, m_pTransform(GetTransform())
@@ -151,6 +151,11 @@ bool ArrowBlock::GetMoving()
 const ArrowBlock::Direction& ArrowBlock::GetDirection()
 {
 	return m_Direction;
+}
+
+const ArrowBlock::State& ArrowBlock::GetState()
+{
+	return m_State;
 }
 
 void ArrowBlock::Render()

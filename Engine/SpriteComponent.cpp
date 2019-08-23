@@ -56,6 +56,7 @@ void SpriteComponent::SetClipIndex(int index)
 		m_ClipIndex = index;
 		m_AnimFrame = m_ClipIndex * m_Cols;
 		m_AnimTime = 0.0f;
+		m_EndedClips[m_ClipIndex] = false;
 	}
 }
 
