@@ -21,9 +21,13 @@ Scene::~Scene()
 
 void Scene::Add(GameObject* gameObject)
 {
+	gameObject->m_pScene = this;
 	m_pGameObjects.push_back(gameObject);
 
-	gameObject->m_pScene = this;
+	if (m_IsInitialized)
+	{
+		gameObject->RootInitialize();
+	}
 }
 
 void Scene::Remove(GameObject* gameObject)

@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "GameTime.h"
 #include "LevelManager.h"
+#include "ScoreManager.h"
 #include <glm.hpp>
 
 class SpriteComponent;
@@ -11,9 +12,11 @@ class Enemy : public GameObject
 public:
 	enum State
 	{
+		SPAWNING,
 		WANDERING,
 		PUNCHING,
 		STICKING,
+		DIZZLING,
 		IDLE
 	};
 
@@ -55,6 +58,7 @@ private:
 	glm::vec2 m_SpawnPosition;
 	GameTime* m_pGameTime;
 	LevelManager* m_pLevelManager;
+	ScoreManager* m_pScoreManager;
 
 	TransformComponent* m_pTransform;
 	SpriteComponent* m_pSprite;
@@ -74,5 +78,8 @@ private:
 	
 	GameObject* m_pStickBlock;
 	bool m_StickToBlock;
+
+	bool m_Dizzle;
+	float m_DizzleTimer;
 };
 

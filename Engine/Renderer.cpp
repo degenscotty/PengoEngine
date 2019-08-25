@@ -1,9 +1,11 @@
 #include "pch.h"
 #include "Renderer.h"
 #include "Application.h"
+#include "ResourceManager.h"
 
 Renderer::Renderer()
 	: m_pRenderer{ nullptr }
+	, m_pResourceManager(ResourceManager::GetInstance())
 {
 }
 
@@ -24,7 +26,7 @@ void Renderer::Initialize()
 		return;
 	}
 
-	SDL_SetRenderDrawColor(m_pRenderer, 25, 25, 25, 255);
+	SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
 
 	int imgFlags = IMG_INIT_PNG;
 	if (!(IMG_Init(imgFlags) & imgFlags))
@@ -47,7 +49,7 @@ SDL_Renderer* Renderer::GetSDLRenderer()
 
 void Renderer::ClearBuffer()
 {
-	SDL_SetRenderDrawColor(m_pRenderer, 25, 25, 25, 255);
+	SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
 	SDL_RenderClear(m_pRenderer);
 }
 
@@ -157,4 +159,32 @@ void Renderer::RenderTextComponent(TextComponent* textureComponent, TransformCom
 	//dest.y = dest.y - (int)(dest.h / 2.0f);
 
 	SDL_RenderCopyEx(GetSDLRenderer(), pTexture->GetSDLTexture(), nullptr, &dest, pTransform->GetRotation(), nullptr, SDL_FLIP_NONE);
+}
+
+void Renderer::RenderText(const std::string& string, SDL_Color color, const std::string& file, int size, int x, int y)
+{
+	auto font = ResourceManager::GetInstance()->LoadFont(std::make_pair(file, size));
+
+	SDL_Surface* pSurface = TTF_RenderText_Blended(font->GetTTFFont(), string.c_str(), color);
+	SDL_Texture* pTexture = SDL_CreateTextureFromSurface(GetSDLRenderer(), pSurface);
+	SDL_FreeSurface(pSurface);
+
+	auto texture2D = new Texture2D(pTexture);
+
+	SDL_Rect dest;
+
+	dest.x = static_cast<int>(x);
+	dest.y = static_cast<int>(y);
+
+	SDL_QueryTexture(pTexture, nullptr, nullptr, &dest.w, &dest.h);
+
+	dest.w = int(dest.w * 1);
+	dest.h = int(dest.h * 1);
+
+	dest.x = dest.x - (int)(dest.w / 2.0f);
+	dest.y = dest.y - (int)(dest.h / 2.0f);
+
+	SDL_RenderCopyEx(GetSDLRenderer(), texture2D->GetSDLTexture(), nullptr, &dest, 0, nullptr, SDL_FLIP_NONE);
+
+	delete texture2D;
 }

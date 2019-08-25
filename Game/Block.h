@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "GameTime.h"
 #include "LevelManager.h"
+#include "SceneManager.h"
 #include <glm.hpp>
 
 class SpriteComponent;
@@ -24,7 +25,7 @@ public:
 		NONE
 	};
 
-	Block(const glm::vec2& position);
+	Block(const glm::vec2& position, bool hatcher);
 	~Block();
 
 	Block(const Block& other) = delete;
@@ -49,6 +50,7 @@ protected:
 	void Render() override;
 
 private:
+	SceneManager* m_pSceneManager;
 	GameTime* m_pGameTime;
 	SpriteComponent* m_pSpriteComponent;
 	TransformComponent* m_pTransform;
@@ -62,5 +64,9 @@ private:
 	bool m_Destroy;
 	float m_MoveSpeed;
 	Direction m_Direction;
+
+	bool m_Hatcher;
+	float m_HatchTimer;
+	float m_HatchCooldown;
 };
 

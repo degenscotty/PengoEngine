@@ -11,7 +11,7 @@ class ArrowBlock : public GameObject
 public:
 	enum State
 	{
-		BRAKING,
+		FLICKER,
 		IDLE
 	};
 
@@ -33,6 +33,7 @@ public:
 	ArrowBlock& operator=(ArrowBlock&& other) = delete;
 
 	void UpdateMovement();
+	void UpdateAnimations();
 
 	void Push(const Direction& direction);
 
@@ -40,6 +41,7 @@ public:
 	const ArrowBlock::Direction& GetDirection();
 
 	const State& GetState();
+	void SetState(const State& state);
 
 protected:
 	void Initialize() override;

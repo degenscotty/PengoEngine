@@ -23,6 +23,9 @@
     <ClCompile Include="ArrowBlock.cpp">
       <Filter>Prefabs</Filter>
     </ClCompile>
+    <ClCompile Include="ScoreManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PengoScene.h">
@@ -45,6 +48,9 @@
     </ClInclude>
     <ClInclude Include="ArrowBlock.h">
       <Filter>Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreManager.h">
+      <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

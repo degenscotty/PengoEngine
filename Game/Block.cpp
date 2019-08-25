@@ -1,19 +1,23 @@
 #include "Block.h"
 #include "Components.h"
 #include "GarbageCollector.h"
+#include "Enemy.h"
 
-Block::Block(const glm::vec2& position)
+Block::Block(const glm::vec2& position, bool hatcher)
 	: m_SpawnPosition(position)
 	, m_Moving(false)
 	, m_Direction(Direction::NONE)
 	, m_pLevelManager(LevelManager::GetInstance())
-	, m_MoveSpeed(200)
+	, m_MoveSpeed(220)
 	, m_Destination()
 	, m_pGameTime(GameTime::GetInstance())
 	, m_pTransform(GetTransform())
 	, m_pSpriteComponent(nullptr)
 	, m_State(State::IDLE)
 	, m_Destroy(false)
+	, m_Hatcher(hatcher)
+	, m_HatchCooldown(float(rand() % 10))
+	, m_pSceneManager(SceneManager::GetInstance())
 {
 }
 
@@ -48,6 +52,23 @@ void Block::Initialize()
 
 void Block::Update()
 {
+	srand(unsigned int(time(NULL)));
+
+	if (m_Hatcher && !m_Moving)
+	{
+		m_HatchTimer += m_pGameTime->GetElapsedSec();
+
+		if (m_HatchTimer > m_HatchCooldown)
+		{
+			m_Destroy = true;
+			m_State = State::BRAKING;
+			m_pLevelManager->SetTile((int)m_Destination.x / 16, (int)m_Destination.y / 16, '.');
+			auto enemy = new Enemy({ (int)m_Destination.x, (int)m_Destination.y });
+			m_pSceneManager->GetActiveScene()->Add(enemy);
+			m_Hatcher = false;
+		}
+	}
+
 	UpdateMovement();
 	UpdateAnimations();
 

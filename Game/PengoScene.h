@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "Pengo.h"
 #include "LevelManager.h"
+#include "ScoreManager.h"
 
 class PengoScene : public Scene
 {
@@ -23,5 +24,6 @@ private:
 	Pengo* m_pPengo;
 
 	LevelManager* m_pLevelManager;
+	ScoreManager* m_pScoreManager;
 };
 

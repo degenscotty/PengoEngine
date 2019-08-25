@@ -7,12 +7,14 @@ PengoScene::PengoScene()
 	: Scene(L"PengoScene")
 	, m_pPengo(nullptr)
 	, m_pLevelManager(LevelManager::GetInstance())
+	, m_pScoreManager(ScoreManager::GetInstance())
 {
 }
 
 PengoScene::~PengoScene()
 {
 	LevelManager::DestroyInstance();
+	ScoreManager::DestroyInstance();
 }
 
 void PengoScene::Initialize()
@@ -29,8 +31,11 @@ void PengoScene::Initialize()
 
 void PengoScene::Update()
 {
+	m_pScoreManager->Update();
+	m_pLevelManager->Update();
 }
 
 void PengoScene::Render()
 {
+	m_pScoreManager->Render();
 }

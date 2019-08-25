@@ -12,6 +12,8 @@ Wall::Wall(const glm::vec2& position)
 	, m_WiggleAvailable(true)
 	, m_WiggleTimer(0.0f)
 	, m_pGameTime(GameTime::GetInstance())
+	, m_FlashTimer(0.0f)
+	, m_FlashAvailable(true)
 {
 }
 
@@ -23,12 +25,13 @@ void Wall::Initialize()
 {
 	// ------------------------------- Sprite Component ------------------------------------- //
 
-	m_pSpriteComponent = new SpriteComponent("Wall.png", 2, 6, 16);
+	m_pSpriteComponent = new SpriteComponent("Wall.png", 3, 6, 16);
 
 	m_pSpriteComponent->AddClip(6, false);
 	m_pSpriteComponent->AddClip(1, false);
+	m_pSpriteComponent->AddClip(6, true);
 
-	m_pSpriteComponent->SetClipIndex(State::IDLE);
+	m_pSpriteComponent->SetClipIndex(1);
 
 	AddComponent(m_pSpriteComponent);
 
@@ -44,6 +47,16 @@ void Wall::Initialize()
 
 void Wall::Update()
 {
+	if (m_State == State::FLASHING)
+	{
+		m_FlashTimer += m_pGameTime->GetElapsedSec();
+
+		if (m_FlashTimer > 5.0f)
+		{
+			m_State = State::IDLE;
+		}
+	}
+
 	if (!m_WiggleAvailable)
 	{
 		m_WiggleTimer += m_pGameTime->GetElapsedSec();
@@ -65,6 +78,15 @@ void Wall::Update()
 	UpdateAnimations();
 }
 
+void Wall::TriggerBonus()
+{
+	if (m_FlashAvailable)
+	{
+		m_State = State::FLASHING;
+		m_FlashAvailable = false;
+	}
+}
+
 void Wall::TriggerWiggle(const Wall::Direction& direction)
 {
 	if (m_WiggleAvailable)
@@ -83,12 +105,17 @@ void Wall::UpdateAnimations()
 	{
 	case State::IDLE:
 	{
-		m_pSpriteComponent->SetClipIndex(State::IDLE);
+		m_pSpriteComponent->SetClipIndex(1);
 	}
 	break;
 	case State::WIGGLE:
 	{
-		m_pSpriteComponent->SetClipIndex(State::WIGGLE);
+		m_pSpriteComponent->SetClipIndex(0);
+	}
+	break;
+	case State::FLASHING:
+	{
+		m_pSpriteComponent->SetClipIndex(2);
 	}
 	break;
 	}

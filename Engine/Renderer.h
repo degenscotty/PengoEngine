@@ -4,6 +4,8 @@
 #include "SceneManager.h"
 #include "Components.h"
 
+class ResourceManager;
+
 class Renderer : public Singleton<Renderer>
 {
 public:
@@ -20,9 +22,12 @@ public:
 	void RenderSpriteComponent(SpriteComponent* spriteComponent, TransformComponent* transfComponent, const SDL_Rect& srcRect, const SDL_RendererFlip& flip);
 	void RenderTextComponent(TextComponent* textureComponent, TransformComponent* transfComponent);
 
+	void RenderText(const std::string& string, SDL_Color color, const std::string& file, int size, int x, int y);
+
 	SDL_Renderer* GetSDLRenderer();
 
 private:
+	ResourceManager* m_pResourceManager;
 	SDL_Renderer* m_pRenderer;
 };
 

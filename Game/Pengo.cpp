@@ -287,9 +287,6 @@ void Pengo::OnTrigger(GameObject* gameObject)
 		if (block && block->GetState() == Block::BRAKING)
 			return;
 
-		if (arrowBlock && arrowBlock->GetState() == ArrowBlock::BRAKING)
-			return;
-
 		switch (m_Direction)
 		{
 		case Direction::Down:

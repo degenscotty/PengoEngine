@@ -12,7 +12,8 @@ public:
 	enum State
 	{
 		WIGGLE,
-		IDLE
+		IDLE,
+		FLASHING
 	};
 
 	enum Direction
@@ -41,6 +42,8 @@ public:
 
 	void OnTrigger(GameObject* gameObject);
 
+	void TriggerBonus();
+
 protected:
 	void Initialize() override;
 	void Update() override;
@@ -57,7 +60,9 @@ private:
 	State m_State;
 	bool m_Wiggle;
 	bool m_WiggleAvailable;
+	bool m_FlashAvailable;
 
 	float m_WiggleTimer;
+	float m_FlashTimer;
 };
 

@@ -8,7 +8,7 @@ ArrowBlock::ArrowBlock(const glm::vec2& position)
 	, m_Direction(Direction::NONE)
 	, m_Destination()
 	, m_Moving(false)
-	, m_MoveSpeed(200)
+	, m_MoveSpeed(220)
 	, m_pLevelManager(LevelManager::GetInstance())
 	, m_pGameTime(GameTime::GetInstance())
 	, m_pTransform(GetTransform())
@@ -24,9 +24,10 @@ void ArrowBlock::Initialize()
 {
 	// ------------------------------- Sprite Component ------------------------------------- //
 
-	m_pSpriteComponent = new SpriteComponent("ArrowBlock.png", 1, 1, 32);
+	m_pSpriteComponent = new SpriteComponent("ArrowBlock.png", 2, 2, 32);
 
 	m_pSpriteComponent->AddClip(1, false);
+	m_pSpriteComponent->AddClip(2, true);
 
 	m_pSpriteComponent->SetClipIndex(0);
 
@@ -47,6 +48,20 @@ void ArrowBlock::Initialize()
 void ArrowBlock::Update()
 {
 	UpdateMovement();
+	UpdateAnimations();
+}
+
+void ArrowBlock::UpdateAnimations()
+{
+	switch (m_State)
+	{
+	case State::FLICKER:
+		m_pSpriteComponent->SetClipIndex(1);
+		break;
+	case State::IDLE:
+		m_pSpriteComponent->SetClipIndex(0);
+		break;
+	}
 }
 
 void ArrowBlock::UpdateMovement()
@@ -156,6 +171,11 @@ const ArrowBlock::Direction& ArrowBlock::GetDirection()
 const ArrowBlock::State& ArrowBlock::GetState()
 {
 	return m_State;
+}
+
+void ArrowBlock::SetState(const ArrowBlock::State& state)
+{
+	m_State = state;
 }
 
 void ArrowBlock::Render()
