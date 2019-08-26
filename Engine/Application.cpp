@@ -7,6 +7,7 @@
 #include "GameTime.h"
 #include "InputManager.h"
 #include "ResourceManager.h"
+#include "SoundManager.h"
 #include "GarbageCollector.h"
 #include <chrono>
 
@@ -29,6 +30,7 @@ Application::~Application()
 	InputManager::DestroyInstance();
 	ResourceManager::DestroyInstance();
 	GarbageCollector::DestroyInstance();
+	SoundManager::DestroyInstance();
 
 	delete m_pWindow;
 	m_pWindow = nullptr;
@@ -40,6 +42,7 @@ void Application::Initialize()
 	GameTime::GetInstance()->Initialize();
 	Renderer::GetInstance()->Initialize();
 	SceneManager::GetInstance()->Initialize();
+	SoundManager::GetInstance();
 }
 
 void Application::Run()

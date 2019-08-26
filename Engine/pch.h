@@ -11,6 +11,13 @@
 #include <SDL_ttf.h>
 #include <glm.hpp>
 
+#include <fmod.hpp>
+
+#pragma warning (push)
+#pragma warning (disable:4505)
+#include <fmod_errors.h>
+#pragma warning (pop)
+
 #include "Log.h"
 
 template<class T>

@@ -26,6 +26,12 @@
     <ClCompile Include="ScoreManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Prefabs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PengoScene.h">
@@ -52,6 +58,15 @@
     <ClInclude Include="ScoreManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Scenes">
@@ -62,6 +77,9 @@
     </Filter>
     <Filter Include="Managers">
       <UniqueIdentifier>{1f2bc635-aaf5-4241-aba7-96bfff65d2d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helpers">
+      <UniqueIdentifier>{85e6fdf2-368f-49a3-9f9e-7ae43a3c04a1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

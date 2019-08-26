@@ -20,6 +20,9 @@
     <Filter Include="Components">
       <UniqueIdentifier>{532c1547-7059-46ad-9ac2-596c9b2289c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sound">
+      <UniqueIdentifier>{b31a9c94-1ddd-4984-8c0c-f4a6dda7bf18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -78,6 +81,9 @@
     </ClCompile>
     <ClCompile Include="GarbageCollector.cpp">
       <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,6 +161,9 @@
     </ClInclude>
     <ClInclude Include="GarbageCollector.h">
       <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Sound</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
