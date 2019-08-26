@@ -74,6 +74,7 @@ void Enemy::Initialize()
 	AddComponent(collisionComp);
 
 	GetTransform()->Translate(m_SpawnPosition);
+	SetTag("Enemy");
 
 	m_Destination = m_SpawnPosition;
 
@@ -121,6 +122,11 @@ void Enemy::Update()
 		FollowStickBlock();
 		UpdateAnimations();
 	}
+}
+
+const Enemy::Direction& Enemy::GetDirection()
+{
+	return m_Direction;
 }
 
 void Enemy::CheckNextWander(int index)
@@ -522,6 +528,7 @@ void Enemy::FollowStickBlock()
 			{
 				GarbageCollector::GetInstance()->Destroy(this);
 				m_pScoreManager->AddScore(400);
+				m_pLevelManager->EnemyDead();
 				return;
 			}
 

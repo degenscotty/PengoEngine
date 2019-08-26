@@ -8,7 +8,7 @@ Block::Block(const glm::vec2& position, bool hatcher)
 	, m_Moving(false)
 	, m_Direction(Direction::NONE)
 	, m_pLevelManager(LevelManager::GetInstance())
-	, m_MoveSpeed(250)
+	, m_MoveSpeed(280)
 	, m_Destination()
 	, m_pGameTime(GameTime::GetInstance())
 	, m_pTransform(GetTransform())
@@ -75,6 +75,9 @@ void Block::Update()
 
 	if (m_pSpriteComponent->CheckEndOfCurrentClip() && m_Destroy == true)
 	{
+		if (m_Hatcher)
+			m_pLevelManager->EnemyDead();
+
 		GarbageCollector::GetInstance()->Destroy(this);
 	}
 }

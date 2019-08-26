@@ -32,6 +32,9 @@
     <ClCompile Include="Button.cpp">
       <Filter>Prefabs</Filter>
     </ClCompile>
+    <ClCompile Include="utils.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PengoScene.h">

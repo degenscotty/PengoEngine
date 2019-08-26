@@ -1,4 +1,5 @@
 #include "LevelManager.h"
+#include "GarbageCollector.h"
 
 #include "Scene.h"
 #include "Wall.h"
@@ -19,6 +20,7 @@ LevelManager::LevelManager()
 	, m_ArrowBlockPositions()
 	, m_pWalls()
 	, m_LevelInitialized(false)
+	, m_EnemyCount(0)
 {
 }
 
@@ -96,6 +98,7 @@ void LevelManager::InitializeLevel()
 			{
 				auto block = new Block({ x * 16.0f, y * 16.0f }, true);
 				m_pSceneManager->GetActiveScene()->Add(block);
+				m_EnemyCount += 1;
 			}
 			break;
 			case L'#':
@@ -110,6 +113,7 @@ void LevelManager::InitializeLevel()
 				auto enemy = new Enemy({ x * 16.0f, y * 16.0f });
 				SetTile(x, y, L'.');
 				m_pSceneManager->GetActiveScene()->Add(enemy);
+				m_EnemyCount += 1;
 			}
 			break;
 			case L'A':
@@ -128,11 +132,22 @@ void LevelManager::InitializeLevel()
 	m_LevelInitialized = true;
 }
 
+void LevelManager::EnemyDead()
+{
+	m_EnemyCount -= 1;
+}
+
 void LevelManager::Update()
 {
 	if (!m_ArrowBlockBonus)
 	{
 		CheckArrowBlocks();
+	}
+
+	if (m_EnemyCount == 0)
+	{
+		GarbageCollector::GetInstance()->Destroy(SceneManager::GetInstance()->GetActiveScene());
+		SceneManager::GetInstance()->SetActiveScene(L"MainMenu");
 	}
 }
 
@@ -168,7 +183,7 @@ void LevelManager::CheckArrowBlockSides(int posx, int posy, int index)
 	if (index == 2)
 	{
 		m_pSoundManager->PlaySoundByID(3, 3, 0.5f, eSoundMerge::Replay);
-		m_pScoreManager->AddScore(1000);
+		m_pScoreManager->AddScore(10000);
 		m_ArrowBlockBonus = true;
 		std::for_each(m_pWalls.begin(), m_pWalls.end(), [](Wall* wall)
 		{

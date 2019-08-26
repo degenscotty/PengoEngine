@@ -53,6 +53,7 @@ void Wall::Update()
 
 		if (m_FlashTimer > 5.0f)
 		{
+			m_FlashTimer = 0.0f;
 			m_State = State::IDLE;
 		}
 	}
@@ -61,7 +62,7 @@ void Wall::Update()
 	{
 		m_WiggleTimer += m_pGameTime->GetElapsedSec();
 
-		if (m_WiggleTimer > 1.2f)
+		if (m_WiggleTimer > 1.6f)
 		{
 			m_WiggleAvailable = true;
 			m_WiggleTimer = 0.0f;

@@ -2,7 +2,13 @@
 #include "Components.h"
 #include "Block.h"
 #include "ArrowBlock.h"
+#include "SceneManager.h"
+#include "GarbageCollector.h"
+#include "ResourceManager.h"
 #include "Wall.h"
+#include "Enemy.h"
+#include "utils.h"
+#include "Texture2D.h"
 #include <string>
 
 Pengo::Pengo()
@@ -19,6 +25,11 @@ Pengo::Pengo()
 	, m_Push(false)
 	, m_PushAvailable(true)
 	, m_PushTimer(0.0f)
+	, m_Lives(5)
+	, m_Invincible(false)
+	, m_InvincibleTimer(0.0f)
+	, m_pRenderer(Renderer::GetInstance())
+	, m_pPengoLife(nullptr)
 {
 }
 
@@ -44,6 +55,8 @@ void Pengo::Initialize()
 
 
 	AddComponent(m_pSpriteComponent);
+
+	m_pPengoLife = ResourceManager::GetInstance()->LoadTexture("PengoLife.png");
 
 	// ------------------------------- Collision Component ------------------------------------- //
 
@@ -115,6 +128,23 @@ void Pengo::MoveNext()
 
 void Pengo::Update()
 {
+	if (m_Invincible)
+	{
+		m_InvincibleTimer += m_pGameTime->GetElapsedSec();
+
+		if (m_InvincibleTimer > 3.0f)
+		{
+			m_Invincible = false;
+			m_InvincibleTimer = 0.0f;
+		}
+	}
+
+	if (m_Lives < 1)
+	{
+		GarbageCollector::GetInstance()->Destroy(SceneManager::GetInstance()->GetActiveScene());
+		SceneManager::GetInstance()->SetActiveScene(L"MainMenu");
+	}
+
 	if (!m_PushAvailable)
 	{
 		m_PushTimer += m_pGameTime->GetElapsedSec();
@@ -274,8 +304,22 @@ void Pengo::UpdateAnimations()
 	}
 }
 
+void Pengo::Respawn()
+{
+	m_State = State::Idle;
+	m_Direction = Direction::Right;
+	m_pTransform->Translate(16.0f, 16.0f);
+	m_Destination = { 16.0f, 16.0f };
+	m_Push = false;
+	m_PushAvailable = true;
+}
+
 void Pengo::Render()
 {
+	for (int i{ 0 }; i < m_Lives; ++i)
+	{
+		m_pRenderer->RenderTexture(m_pPengoLife->GetSDLTexture(), 4 + int(i * 16.0f), 516);
+	}
 }
 
 void Pengo::OnTrigger(GameObject* gameObject)
@@ -510,6 +554,23 @@ void Pengo::OnTrigger(GameObject* gameObject)
 			}
 		}
 		break;
+		}
+	}
+
+	if (!m_Invincible && gameObject->GetTag() == "Enemy")
+	{
+		auto enemy = dynamic_cast<Enemy*>(gameObject);
+
+		if (utils::IsOverlapping({ enemy->GetTransform()->GetPosition().x
+			, enemy->GetTransform()->GetPosition().y, 32.0f, 32.0f }
+			, { m_pTransform->GetPosition().x, m_pTransform->GetPosition().y, 32.0f, 32.0f }))
+		{
+			m_Lives -= 1;
+
+			m_Invincible = true;
+
+			if (m_Lives > 0)
+				Respawn();
 		}
 	}
 }

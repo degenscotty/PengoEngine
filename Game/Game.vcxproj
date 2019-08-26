@@ -236,6 +236,7 @@ xcopy "$(SolutionDir)3rdParty\FMOD\bin\fmod64.dll" "$(OutputPath)" /R /Y</Comman
     <ClCompile Include="PengoScene.cpp" />
     <ClCompile Include="SandboxApplication.cpp" />
     <ClCompile Include="ScoreManager.cpp" />
+    <ClCompile Include="utils.cpp" />
     <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>

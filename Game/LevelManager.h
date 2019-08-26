@@ -35,6 +35,8 @@ public:
 	void SetPengo(Pengo* pengo);
 	Pengo* GetPengo();
 
+	void EnemyDead();
+
 	bool CheckLevel();
 
 private:
@@ -45,6 +47,8 @@ private:
 
 	int m_LevelWidth;
 	int m_LevelHeight;
+
+	int m_EnemyCount;
 
 	bool m_ArrowBlockBonus;
 	bool m_LevelInitialized;

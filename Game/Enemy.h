@@ -50,6 +50,8 @@ public:
 
 	void OnTrigger(GameObject* gameObject);
 
+	const Direction& GetDirection();
+
 protected:
 	void Initialize() override;
 	void Update() override;

@@ -3,9 +3,11 @@
 #include "LevelManager.h"
 #include "InputManager.h"
 #include "SoundManager.h"
+#include "Renderer.h"
 #include "GameTime.h"
 #include <glm.hpp>
 
+class Texture2D;
 class SpriteComponent;
 class TransformComponent;
 
@@ -43,6 +45,7 @@ public:
 
 	void UpdateMovement();
 	void UpdateAnimations();
+	void Respawn();
 
 	void MoveNext();
 
@@ -54,10 +57,13 @@ protected:
 	void Render() override;
 
 private:
+	Renderer* m_pRenderer;
 	InputManager* m_pInput;
 	SoundManager* m_pSoundManager;
 	GameTime* m_pGameTime;
 	LevelManager* m_pLevelManager;
+
+	Texture2D* m_pPengoLife;
 
 	TransformComponent* m_pTransform;
 	SpriteComponent* m_pSpriteComponent;
@@ -67,8 +73,13 @@ private:
 	Direction m_Direction;
 	float m_MoveSpeed;
 
+	bool m_Invincible;
 	bool m_Push;
 	bool m_PushAvailable;
+	
 	float m_PushTimer;
+	float m_InvincibleTimer;
+
+	int m_Lives;
 };
 
