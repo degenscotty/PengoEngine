@@ -31,6 +31,9 @@ void PengoScene::Initialize()
 
 void PengoScene::Update()
 {
+	if (!m_pLevelManager->CheckLevel())
+		m_pLevelManager->InitializeLevel();
+
 	m_pScoreManager->Update();
 	m_pLevelManager->Update();
 }

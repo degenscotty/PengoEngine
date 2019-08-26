@@ -15,8 +15,10 @@ LevelManager::LevelManager()
 	, m_pArrowBlocks()
 	, m_ArrowBlockBonus(false)
 	, m_pScoreManager(ScoreManager::GetInstance())
+	, m_pSoundManager(SoundManager::GetInstance())
 	, m_ArrowBlockPositions()
 	, m_pWalls()
+	, m_LevelInitialized(false)
 {
 }
 
@@ -68,8 +70,11 @@ void LevelManager::Initialize()
 	m_LevelString += L"#..........O=..............#";
 	m_LevelString += L"#..........==..............#";
 	m_LevelString += L"############################";
+}
 
-	InitializeLevel();
+bool LevelManager::CheckLevel()
+{
+	return m_LevelInitialized;
 }
 
 void LevelManager::InitializeLevel()
@@ -119,6 +124,8 @@ void LevelManager::InitializeLevel()
 			}
 		}
 	}
+
+	m_LevelInitialized = true;
 }
 
 void LevelManager::Update()
@@ -160,6 +167,7 @@ void LevelManager::CheckArrowBlockSides(int posx, int posy, int index)
 
 	if (index == 2)
 	{
+		m_pSoundManager->PlaySoundByID(3, 3, 0.5f, eSoundMerge::Replay);
 		m_pScoreManager->AddScore(1000);
 		m_ArrowBlockBonus = true;
 		std::for_each(m_pWalls.begin(), m_pWalls.end(), [](Wall* wall)

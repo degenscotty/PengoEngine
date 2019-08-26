@@ -1,6 +1,8 @@
 #include "MainMenu.h"
 #include "ResourceManager.h"
+#include "SceneManager.h"
 #include "SoundManager.h"
+#include "PengoScene.h"
 
 MainMenu::MainMenu()
 	: Scene(L"MainMenu")
@@ -28,6 +30,12 @@ void MainMenu::Initialize()
 
 	auto soundManager = SoundManager::GetInstance();
 	soundManager->LoadSound(0, SoundData{ "../Resources/popcorn_slow.mp3", FMOD_LOOP_NORMAL });
+	soundManager->LoadSound(1, SoundData{ "../Resources/Push.wav", FMOD_DEFAULT });
+	soundManager->LoadSound(2, SoundData{ "../Resources/Death.mp3", FMOD_DEFAULT });
+	soundManager->LoadSound(3, SoundData{ "../Resources/Bonus.wav", FMOD_DEFAULT });
+	soundManager->LoadSound(4, SoundData{ "../Resources/EnemySpawn.wav", FMOD_DEFAULT });
+	soundManager->LoadSound(5, SoundData{ "../Resources/Dizzle.wav", FMOD_DEFAULT });
+	soundManager->LoadSound(6, SoundData{ "../Resources/BlockBreak.wav", FMOD_DEFAULT });
 
 	soundManager->PlaySoundByID(0, 0, 0.1f, eSoundMerge::ContinueElseReplay);
 
@@ -46,6 +54,8 @@ void MainMenu::Update()
 		if (m_PlayButton.OnClick())
 		{
 			CLIENT_INFO("PlayButton Clicked");
+			SceneManager::GetInstance()->AddScene(new PengoScene());
+			SceneManager::GetInstance()->SetActiveScene(L"PengoScene");
 		}
 		if (m_OptionsButton.OnClick())
 		{

@@ -29,6 +29,7 @@ Enemy::Enemy(const glm::vec2& position)
 	, m_DizzleTimer(0.0f)
 	, m_Dizzle(false)
 	, m_pScoreManager(ScoreManager::GetInstance())
+	, m_pSoundManager(SoundManager::GetInstance())
 {
 }
 
@@ -75,6 +76,8 @@ void Enemy::Initialize()
 	GetTransform()->Translate(m_SpawnPosition);
 
 	m_Destination = m_SpawnPosition;
+
+	m_pSoundManager->PlaySoundByID(4, 4, 0.1f, eSoundMerge::Replay);
 }
 
 void Enemy::Update()
@@ -807,6 +810,7 @@ void Enemy::OnTrigger(GameObject* gameObject)
 		{
 			if (wall->GetWiggle())
 			{
+				m_pSoundManager->PlaySoundByID(5, 5, 0.5f, eSoundMerge::Replay);
 				m_Dizzle = true;
 				m_State = State::DIZZLING;
 			}

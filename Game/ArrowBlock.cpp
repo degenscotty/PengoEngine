@@ -8,11 +8,12 @@ ArrowBlock::ArrowBlock(const glm::vec2& position)
 	, m_Direction(Direction::NONE)
 	, m_Destination()
 	, m_Moving(false)
-	, m_MoveSpeed(220)
+	, m_MoveSpeed(250)
 	, m_pLevelManager(LevelManager::GetInstance())
 	, m_pGameTime(GameTime::GetInstance())
 	, m_pTransform(GetTransform())
 	, m_pSpriteComponent(nullptr)
+	, m_pSoundManager(SoundManager::GetInstance())
 {
 }
 
@@ -152,6 +153,8 @@ void ArrowBlock::UpdateMovement()
 
 void ArrowBlock::Push(const Direction& direction)
 {
+	m_pSoundManager->PlaySoundByID(1, 1, 0.4f, eSoundMerge::Replay);
+
 	m_Moving = true;
 	m_Direction = direction;
 

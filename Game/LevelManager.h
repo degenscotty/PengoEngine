@@ -2,6 +2,7 @@
 #include "Singleton.h"
 #include "SceneManager.h"
 #include "ScoreManager.h"
+#include "SoundManager.h"
 #include <string>
 #include <vector>
 
@@ -34,15 +35,19 @@ public:
 	void SetPengo(Pengo* pengo);
 	Pengo* GetPengo();
 
+	bool CheckLevel();
+
 private:
 	Pengo* m_pPengo;
 	ScoreManager* m_pScoreManager;
+	SoundManager* m_pSoundManager;
 	SceneManager* m_pSceneManager;
 
 	int m_LevelWidth;
 	int m_LevelHeight;
 
 	bool m_ArrowBlockBonus;
+	bool m_LevelInitialized;
 
 	std::wstring m_LevelString;
 

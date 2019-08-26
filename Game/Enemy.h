@@ -3,6 +3,7 @@
 #include "GameTime.h"
 #include "LevelManager.h"
 #include "ScoreManager.h"
+#include "SoundManager.h"
 #include <glm.hpp>
 
 class SpriteComponent;
@@ -59,6 +60,7 @@ private:
 	GameTime* m_pGameTime;
 	LevelManager* m_pLevelManager;
 	ScoreManager* m_pScoreManager;
+	SoundManager* m_pSoundManager;
 
 	TransformComponent* m_pTransform;
 	SpriteComponent* m_pSprite;

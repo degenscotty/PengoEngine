@@ -8,6 +8,7 @@
 Pengo::Pengo()
 	: m_pTransform(GetTransform())
 	, m_pSpriteComponent(nullptr)
+	, m_pSoundManager(SoundManager::GetInstance())
 	, m_pInput(InputManager::GetInstance())
 	, m_MoveSpeed(100.0f)
 	, m_State(State::Idle)

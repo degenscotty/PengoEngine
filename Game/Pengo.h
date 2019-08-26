@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "LevelManager.h"
 #include "InputManager.h"
+#include "SoundManager.h"
 #include "GameTime.h"
 #include <glm.hpp>
 
@@ -54,6 +55,7 @@ protected:
 
 private:
 	InputManager* m_pInput;
+	SoundManager* m_pSoundManager;
 	GameTime* m_pGameTime;
 	LevelManager* m_pLevelManager;
 

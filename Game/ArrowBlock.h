@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "GameTime.h"
 #include "LevelManager.h"
+#include "SoundManager.h"
 #include <glm.hpp>
 
 class SpriteComponent;
@@ -53,6 +54,7 @@ private:
 	TransformComponent* m_pTransform;
 	SpriteComponent* m_pSpriteComponent;
 	LevelManager* m_pLevelManager;
+	SoundManager* m_pSoundManager;
 
 	glm::vec2 m_SpawnPosition;
 

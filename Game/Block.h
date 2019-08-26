@@ -3,6 +3,7 @@
 #include "GameTime.h"
 #include "LevelManager.h"
 #include "SceneManager.h"
+#include "SoundManager.h"
 #include <glm.hpp>
 
 class SpriteComponent;
@@ -50,6 +51,7 @@ protected:
 	void Render() override;
 
 private:
+	SoundManager* m_pSoundManager;
 	SceneManager* m_pSceneManager;
 	GameTime* m_pGameTime;
 	SpriteComponent* m_pSpriteComponent;

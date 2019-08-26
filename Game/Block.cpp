@@ -8,7 +8,7 @@ Block::Block(const glm::vec2& position, bool hatcher)
 	, m_Moving(false)
 	, m_Direction(Direction::NONE)
 	, m_pLevelManager(LevelManager::GetInstance())
-	, m_MoveSpeed(220)
+	, m_MoveSpeed(250)
 	, m_Destination()
 	, m_pGameTime(GameTime::GetInstance())
 	, m_pTransform(GetTransform())
@@ -18,6 +18,7 @@ Block::Block(const glm::vec2& position, bool hatcher)
 	, m_Hatcher(hatcher)
 	, m_HatchCooldown(float(rand() % 20 + 20))
 	, m_pSceneManager(SceneManager::GetInstance())
+	, m_pSoundManager(SoundManager::GetInstance())
 {
 }
 
@@ -189,6 +190,7 @@ void Block::Push(const Direction& direction)
 
 		if (wchar != L'.')
 		{
+			m_pSoundManager->PlaySoundByID(6, 6, 0.4f, eSoundMerge::Replay);
 			m_Destroy = true;
 			m_State = State::BRAKING;
 			m_Destination.y -= 32.0f;
@@ -206,6 +208,7 @@ void Block::Push(const Direction& direction)
 
 		if (wchar != L'.')
 		{
+			m_pSoundManager->PlaySoundByID(6, 6, 0.4f, eSoundMerge::Replay);
 			m_Destroy = true;
 			m_State = State::BRAKING;
 			m_Destination.y += 32.0f;
@@ -223,6 +226,7 @@ void Block::Push(const Direction& direction)
 
 		if (wchar != L'.')
 		{
+			m_pSoundManager->PlaySoundByID(6, 6, 0.4f, eSoundMerge::Replay);
 			m_Destroy = true;
 			m_State = State::BRAKING;
 			m_Destination.x -= 32.0f;
@@ -240,6 +244,7 @@ void Block::Push(const Direction& direction)
 
 		if (wchar != L'.')
 		{
+			m_pSoundManager->PlaySoundByID(6, 6, 0.4f, eSoundMerge::Replay);
 			m_Destroy = true;
 			m_State = State::BRAKING;
 			m_Destination.x += 32.0f;
@@ -250,6 +255,8 @@ void Block::Push(const Direction& direction)
 		break;
 	}
 	}
+
+	m_pSoundManager->PlaySoundByID(1, 1, 0.4f, eSoundMerge::Replay);
 
 	m_Moving = true;
 	m_Direction = direction;
