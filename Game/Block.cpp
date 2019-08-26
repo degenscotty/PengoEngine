@@ -16,7 +16,7 @@ Block::Block(const glm::vec2& position, bool hatcher)
 	, m_State(State::IDLE)
 	, m_Destroy(false)
 	, m_Hatcher(hatcher)
-	, m_HatchCooldown(float(rand() % 10))
+	, m_HatchCooldown(float(rand() % 20 + 20))
 	, m_pSceneManager(SceneManager::GetInstance())
 {
 }
