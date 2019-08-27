@@ -570,6 +570,7 @@ void Enemy::FollowStickBlock()
 			{
 				GarbageCollector::GetInstance()->Destroy(this);
 				m_pScoreManager->AddScore(400);
+				m_pLevelManager->EnemyDead();
 				return;
 			}
 
