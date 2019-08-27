@@ -608,6 +608,11 @@ void Enemy::FollowStickBlock()
 	}
 }
 
+bool Enemy::CheckDizzle()
+{
+	return m_Dizzle;
+}
+
 void Enemy::Render()
 {
 
@@ -627,8 +632,8 @@ void Enemy::OnTrigger(GameObject* gameObject)
 			case Block::Down:
 			{
 				if (m_pTransform->GetPosition().y > block->GetTransform()->GetPosition().y
-					&& m_pTransform->GetPosition().x > block->GetTransform()->GetPosition().x - 32.0f
-					&& m_pTransform->GetPosition().x < block->GetTransform()->GetPosition().x + 32.0f)
+					&& m_pTransform->GetPosition().x > block->GetTransform()->GetPosition().x - 31.0f
+					&& m_pTransform->GetPosition().x < block->GetTransform()->GetPosition().x + 31.0f)
 				{
 					m_State = State::STICKING;
 					m_pStickBlock = gameObject;
@@ -640,8 +645,8 @@ void Enemy::OnTrigger(GameObject* gameObject)
 			case Block::Up:
 			{
 				if (m_pTransform->GetPosition().y < block->GetTransform()->GetPosition().y
-					&& m_pTransform->GetPosition().x > block->GetTransform()->GetPosition().x - 32.0f
-					&& m_pTransform->GetPosition().x < block->GetTransform()->GetPosition().x + 32.0f)
+					&& m_pTransform->GetPosition().x > block->GetTransform()->GetPosition().x - 31.0f
+					&& m_pTransform->GetPosition().x < block->GetTransform()->GetPosition().x + 31.0f)
 				{
 					m_State = State::STICKING;
 					m_pStickBlock = gameObject;
@@ -653,8 +658,8 @@ void Enemy::OnTrigger(GameObject* gameObject)
 			case Block::Right:
 			{
 				if (m_pTransform->GetPosition().x > block->GetTransform()->GetPosition().x
-					&& m_pTransform->GetPosition().y > block->GetTransform()->GetPosition().y - 32.0f
-					&& m_pTransform->GetPosition().y < block->GetTransform()->GetPosition().y + 32.0f)
+					&& m_pTransform->GetPosition().y > block->GetTransform()->GetPosition().y - 31.0f
+					&& m_pTransform->GetPosition().y < block->GetTransform()->GetPosition().y + 31.0f)
 				{
 					m_State = State::STICKING;
 					m_pStickBlock = gameObject;
@@ -666,8 +671,8 @@ void Enemy::OnTrigger(GameObject* gameObject)
 			case Block::Left:
 			{
 				if (m_pTransform->GetPosition().x < block->GetTransform()->GetPosition().x
-					&& m_pTransform->GetPosition().y > block->GetTransform()->GetPosition().y - 32.0f
-					&& m_pTransform->GetPosition().y < block->GetTransform()->GetPosition().y + 32.0f)
+					&& m_pTransform->GetPosition().y > block->GetTransform()->GetPosition().y - 31.0f
+					&& m_pTransform->GetPosition().y < block->GetTransform()->GetPosition().y + 31.0f)
 				{
 					m_State = State::STICKING;
 					m_pStickBlock = gameObject;
@@ -685,8 +690,8 @@ void Enemy::OnTrigger(GameObject* gameObject)
 			case ArrowBlock::Down:
 			{
 				if (m_pTransform->GetPosition().y > arrowBlock->GetTransform()->GetPosition().y
-					&& m_pTransform->GetPosition().x > arrowBlock->GetTransform()->GetPosition().x - 32.0f
-					&& m_pTransform->GetPosition().x < arrowBlock->GetTransform()->GetPosition().x + 32.0f)
+					&& m_pTransform->GetPosition().x > arrowBlock->GetTransform()->GetPosition().x - 31.0f
+					&& m_pTransform->GetPosition().x < arrowBlock->GetTransform()->GetPosition().x + 31.0f)
 				{
 					m_State = State::STICKING;
 					m_pStickBlock = gameObject;
@@ -698,8 +703,8 @@ void Enemy::OnTrigger(GameObject* gameObject)
 			case ArrowBlock::Up:
 			{
 				if (m_pTransform->GetPosition().y < arrowBlock->GetTransform()->GetPosition().y
-					&& m_pTransform->GetPosition().x > arrowBlock->GetTransform()->GetPosition().x - 32.0f
-					&& m_pTransform->GetPosition().x < arrowBlock->GetTransform()->GetPosition().x + 32.0f)
+					&& m_pTransform->GetPosition().x > arrowBlock->GetTransform()->GetPosition().x - 31.0f
+					&& m_pTransform->GetPosition().x < arrowBlock->GetTransform()->GetPosition().x + 31.0f)
 				{
 					m_State = State::STICKING;
 					m_pStickBlock = gameObject;
@@ -711,8 +716,8 @@ void Enemy::OnTrigger(GameObject* gameObject)
 			case ArrowBlock::Right:
 			{
 				if (m_pTransform->GetPosition().x > arrowBlock->GetTransform()->GetPosition().x
-					&& m_pTransform->GetPosition().y > arrowBlock->GetTransform()->GetPosition().y - 32.0f
-					&& m_pTransform->GetPosition().y < arrowBlock->GetTransform()->GetPosition().y + 32.0f)
+					&& m_pTransform->GetPosition().y > arrowBlock->GetTransform()->GetPosition().y - 31.0f
+					&& m_pTransform->GetPosition().y < arrowBlock->GetTransform()->GetPosition().y + 31.0f)
 				{
 					m_State = State::STICKING;
 					m_pStickBlock = gameObject;
@@ -724,8 +729,8 @@ void Enemy::OnTrigger(GameObject* gameObject)
 			case ArrowBlock::Left:
 			{
 				if (m_pTransform->GetPosition().x < arrowBlock->GetTransform()->GetPosition().x
-					&& m_pTransform->GetPosition().y > arrowBlock->GetTransform()->GetPosition().y - 32.0f
-					&& m_pTransform->GetPosition().y < arrowBlock->GetTransform()->GetPosition().y + 32.0f)
+					&& m_pTransform->GetPosition().y > arrowBlock->GetTransform()->GetPosition().y - 31.0f
+					&& m_pTransform->GetPosition().y < arrowBlock->GetTransform()->GetPosition().y + 31.0f)
 				{
 					m_State = State::STICKING;
 					m_pStickBlock = gameObject;

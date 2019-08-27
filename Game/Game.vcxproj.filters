@@ -35,6 +35,12 @@
     <ClCompile Include="utils.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
+    <ClCompile Include="GameOver.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="WinScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PengoScene.h">
@@ -69,6 +75,12 @@
     </ClInclude>
     <ClInclude Include="utils.h">
       <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOver.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="WinScene.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,8 @@
 # Directories
 .vs/
 Debug/
-x64/Debug/
+Release/
+x64/
 
 # Files
 *.user

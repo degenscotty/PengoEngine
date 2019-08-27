@@ -3,7 +3,7 @@
 #include "Renderer.h"
 
 ResourceManager::ResourceManager()
-	: m_FolderPath("../Resources/")
+	: m_FolderPath("./Resources/")
 {
 }
 

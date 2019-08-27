@@ -114,3 +114,8 @@ bool InputManager::Quit()
 	return m_Quit;
 }
 
+void InputManager::QuitGame()
+{
+	m_Quit = true;
+}
+

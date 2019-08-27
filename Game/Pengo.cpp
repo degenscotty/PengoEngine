@@ -142,7 +142,7 @@ void Pengo::Update()
 	if (m_Lives < 1)
 	{
 		GarbageCollector::GetInstance()->Destroy(SceneManager::GetInstance()->GetActiveScene());
-		SceneManager::GetInstance()->SetActiveScene(L"MainMenu");
+		SceneManager::GetInstance()->SetActiveScene(L"GameOver");
 	}
 
 	if (!m_PushAvailable)
@@ -318,7 +318,7 @@ void Pengo::Render()
 {
 	for (int i{ 0 }; i < m_Lives; ++i)
 	{
-		m_pRenderer->RenderTexture(m_pPengoLife->GetSDLTexture(), 4 + int(i * 16.0f), 516);
+		m_pRenderer->RenderTexture(m_pPengoLife->GetSDLTexture(), 4 + int(i * 2.0f) + int(i * 24.0f), 516);
 	}
 }
 
@@ -557,20 +557,31 @@ void Pengo::OnTrigger(GameObject* gameObject)
 		}
 	}
 
-	if (!m_Invincible && gameObject->GetTag() == "Enemy")
+	if (gameObject->GetTag() == "Enemy")
 	{
 		auto enemy = dynamic_cast<Enemy*>(gameObject);
 
-		if (utils::IsOverlapping({ enemy->GetTransform()->GetPosition().x
-			, enemy->GetTransform()->GetPosition().y, 32.0f, 32.0f }
-			, { m_pTransform->GetPosition().x, m_pTransform->GetPosition().y, 32.0f, 32.0f }))
+		if (enemy->CheckDizzle())
 		{
-			m_Lives -= 1;
+			GarbageCollector::GetInstance()->Destroy(enemy);
+			m_pLevelManager->EnemyDead();
+			ScoreManager::GetInstance()->AddScore(100);
+			return;
+		}
 
-			m_Invincible = true;
+		if (!m_Invincible)
+		{
+			if (utils::IsOverlapping({ enemy->GetTransform()->GetPosition().x
+				, enemy->GetTransform()->GetPosition().y, 32.0f, 32.0f }
+				, { m_pTransform->GetPosition().x, m_pTransform->GetPosition().y, 32.0f, 32.0f }))
+			{
+				m_Lives -= 1;
 
-			if (m_Lives > 0)
-				Respawn();
+				m_Invincible = true;
+
+				if (m_Lives > 0)
+					Respawn();
+			}
 		}
 	}
 }

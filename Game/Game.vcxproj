@@ -106,7 +106,8 @@
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <PostBuildEvent>
-      <Command>
+      <Command>xcopy "$(SolutionDir)Resources" "$(OutputPath)Resources" /E /I /R /Y
+
 xcopy "$(SolutionDir)3rdParty\SDL2\lib\x86\SDL2.dll" "$(OutputPath)" /R /Y
 
 xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\x86\*.dll" "$(OutputPath)" /R /Y
@@ -138,7 +139,8 @@ xcopy "$(SolutionDir)3rdParty\FMOD\bin\fmod.dll" "$(OutputPath)" /R /Y</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>
+      <Command>xcopy "$(SolutionDir)Resources" "$(OutputPath)Resources" /E /I /R /Y
+
 xcopy "$(SolutionDir)3rdParty\SDL2\lib\x64\SDL2.dll" "$(OutputPath)" /R /Y
 
 xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\x64\*.dll" "$(OutputPath)" /R /Y
@@ -177,7 +179,8 @@ xcopy "$(SolutionDir)3rdParty\FMOD\bin\fmod64.dll" "$(OutputPath)" /R /Y</Comman
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <PostBuildEvent>
-      <Command>
+      <Command>xcopy "$(SolutionDir)Resources" "$(OutputPath)Resources" /E /I /R /Y
+
 xcopy "$(SolutionDir)3rdParty\SDL2\lib\x86\SDL2.dll" "$(OutputPath)" /R /Y
 
 xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\x86\*.dll" "$(OutputPath)" /R /Y
@@ -213,7 +216,8 @@ xcopy "$(SolutionDir)3rdParty\FMOD\bin\fmod.dll" "$(OutputPath)" /R /Y</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>
+      <Command>xcopy "$(SolutionDir)Resources" "$(OutputPath)Resources" /E /I /R /Y
+
 xcopy "$(SolutionDir)3rdParty\SDL2\lib\x64\SDL2.dll" "$(OutputPath)" /R /Y
 
 xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\x64\*.dll" "$(OutputPath)" /R /Y
@@ -230,6 +234,7 @@ xcopy "$(SolutionDir)3rdParty\FMOD\bin\fmod64.dll" "$(OutputPath)" /R /Y</Comman
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Pengo.cpp" />
@@ -238,12 +243,14 @@ xcopy "$(SolutionDir)3rdParty\FMOD\bin\fmod64.dll" "$(OutputPath)" /R /Y</Comman
     <ClCompile Include="ScoreManager.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="WinScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArrowBlock.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="GameOver.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Pengo.h" />
@@ -251,6 +258,7 @@ xcopy "$(SolutionDir)3rdParty\FMOD\bin\fmod64.dll" "$(OutputPath)" /R /Y</Comman
     <ClInclude Include="ScoreManager.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Wall.h" />
+    <ClInclude Include="WinScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

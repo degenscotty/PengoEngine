@@ -14,7 +14,6 @@ PengoScene::PengoScene()
 PengoScene::~PengoScene()
 {
 	LevelManager::DestroyInstance();
-	ScoreManager::DestroyInstance();
 }
 
 void PengoScene::Initialize()

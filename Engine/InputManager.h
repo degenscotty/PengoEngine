@@ -17,6 +17,8 @@ public:
 
 	bool Quit();
 
+	void QuitGame();
+
 private:
 	SDL_Event e;
 

@@ -52,6 +52,8 @@ public:
 
 	const Direction& GetDirection();
 
+	bool CheckDizzle();
+
 protected:
 	void Initialize() override;
 	void Update() override;

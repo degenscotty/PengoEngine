@@ -147,7 +147,7 @@ void LevelManager::Update()
 	if (m_EnemyCount == 0)
 	{
 		GarbageCollector::GetInstance()->Destroy(SceneManager::GetInstance()->GetActiveScene());
-		SceneManager::GetInstance()->SetActiveScene(L"MainMenu");
+		SceneManager::GetInstance()->SetActiveScene(L"WinScene");
 	}
 }
 

@@ -18,6 +18,9 @@ public:
 	void Render();
 
 	void AddScore(int score);
+	int GetScore();
+
+	void Reset();
 
 private:
 	Renderer* m_pRenderer;
