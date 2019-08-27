@@ -11,5 +11,5 @@ I started the engine from scratch following TheCherno on youtube! Big thanks to 
  - [glm](https://github.com/g-truc/glm)
  - [spdlog](https://github.com/gabime/spdlog)
  
-## ScreenShot
+## ScreenShots
 ![](ScreenShots/Pengo.PNG) ![](ScreenShots/Pengo2.PNG)
