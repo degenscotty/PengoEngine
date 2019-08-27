@@ -10,6 +10,7 @@ I started the engine from scratch following TheCherno on youtube! Big thanks to 
  - [SDL2_ttf](https://www.libsdl.org/projects/SDL_ttf/)
  - [glm](https://github.com/g-truc/glm)
  - [spdlog](https://github.com/gabime/spdlog)
+ - [FMOD](https://www.fmod.com/download)
  
 ## ScreenShots
 ![](ScreenShots/Pengo.PNG) ![](ScreenShots/Pengo2.PNG)
