@@ -70,9 +70,9 @@ void Scene::RootUpdate()
 
 	if (m_pCollisionComponents.size() > 1)
 	{
-		for (int i{ 0 }; i != m_pCollisionComponents.size() - 1; ++i)
+		for (size_t i{ 0 }; i != m_pCollisionComponents.size() - 1; ++i)
 		{
-			for (int j{ i + 1 }; j < m_pCollisionComponents.size(); ++j)
+			for (size_t j{ i + 1 }; j < m_pCollisionComponents.size(); ++j)
 			{
 				if (m_pCollisionComponents[i]->IsColliding(m_pCollisionComponents[j]->GetRect()))
 				{

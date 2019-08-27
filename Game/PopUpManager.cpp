@@ -31,7 +31,7 @@ void PopUpManager::AddPopUp(const std::string& string, const glm::vec2& position
 
 void PopUpManager::Render()
 {
-	for (int i{ 0 }; i < m_PopUps.size(); ++i)
+	for (size_t i{ 0 }; i < m_PopUps.size(); ++i)
 	{
 		m_pRenderer->RenderText(m_PopUps[i].number, { 255, 255, 255 }, "RetroGaming.ttf", 16, (int)m_PopUps[i].position.x, (int)m_PopUps[i].position.y);
 	}
