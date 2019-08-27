@@ -91,12 +91,12 @@ void Scene::RootUpdate()
 
 void Scene::RootRender()
 {
-	Render();
-
 	for (size_t i{}; i < m_pGameObjects.size(); ++i)
 	{
 		m_pGameObjects[i]->RootRender();
 	}
+
+	Render();
 }
 
 const std::wstring& Scene::GetSceneName()

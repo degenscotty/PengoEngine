@@ -5,6 +5,7 @@
 #include "SceneManager.h"
 #include "GarbageCollector.h"
 #include "ResourceManager.h"
+#include "PopUpManager.h"
 #include "Wall.h"
 #include "Enemy.h"
 #include "utils.h"
@@ -566,6 +567,7 @@ void Pengo::OnTrigger(GameObject* gameObject)
 			GarbageCollector::GetInstance()->Destroy(enemy);
 			m_pLevelManager->EnemyDead();
 			ScoreManager::GetInstance()->AddScore(100);
+			PopUpManager::GetInstance()->AddPopUp("100", enemy->GetTransform()->GetPosition());
 			return;
 		}
 

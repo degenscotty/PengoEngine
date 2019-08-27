@@ -3,6 +3,7 @@
 #include "Pengo.h"
 #include "LevelManager.h"
 #include "ScoreManager.h"
+#include "PopUpManager.h"
 
 class PengoScene : public Scene
 {
@@ -25,5 +26,6 @@ private:
 
 	LevelManager* m_pLevelManager;
 	ScoreManager* m_pScoreManager;
+	PopUpManager* m_pPopUpManager;
 };
 

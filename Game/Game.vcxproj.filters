@@ -41,6 +41,9 @@
     <ClCompile Include="WinScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="PopUpManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PengoScene.h">
@@ -81,6 +84,9 @@
     </ClInclude>
     <ClInclude Include="WinScene.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="PopUpManager.h">
+      <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

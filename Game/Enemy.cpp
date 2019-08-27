@@ -3,6 +3,7 @@
 #include "Block.h"
 #include "ArrowBlock.h"
 #include "GarbageCollector.h"
+#include "PopUpManager.h"
 #include "Pengo.h"
 #include "Wall.h"
 #include <string>
@@ -529,6 +530,7 @@ void Enemy::FollowStickBlock()
 				GarbageCollector::GetInstance()->Destroy(this);
 				m_pScoreManager->AddScore(400);
 				m_pLevelManager->EnemyDead();
+				PopUpManager::GetInstance()->AddPopUp("400", block->GetTransform()->GetPosition());
 				return;
 			}
 
@@ -571,6 +573,7 @@ void Enemy::FollowStickBlock()
 				GarbageCollector::GetInstance()->Destroy(this);
 				m_pScoreManager->AddScore(400);
 				m_pLevelManager->EnemyDead();
+				PopUpManager::GetInstance()->AddPopUp("400", arrowBlock->GetTransform()->GetPosition());
 				return;
 			}
 
