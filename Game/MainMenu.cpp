@@ -62,6 +62,7 @@ void MainMenu::Update()
 		if (m_OptionsButton.OnClick())
 		{
 			CLIENT_INFO("OptionsButton Clicked");
+			SceneManager::GetInstance()->SetActiveScene(L"Options");
 		}
 		if (m_ExitButton.OnClick())
 		{

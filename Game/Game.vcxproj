@@ -237,6 +237,7 @@ xcopy "$(SolutionDir)3rdParty\FMOD\bin\fmod64.dll" "$(OutputPath)" /R /Y</Comman
     <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="Options.cpp" />
     <ClCompile Include="Pengo.cpp" />
     <ClCompile Include="PengoScene.cpp" />
     <ClCompile Include="PopUpManager.cpp" />
@@ -254,6 +255,7 @@ xcopy "$(SolutionDir)3rdParty\FMOD\bin\fmod64.dll" "$(OutputPath)" /R /Y</Comman
     <ClInclude Include="GameOver.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="Options.h" />
     <ClInclude Include="Pengo.h" />
     <ClInclude Include="PengoScene.h" />
     <ClInclude Include="PopUpManager.h" />
